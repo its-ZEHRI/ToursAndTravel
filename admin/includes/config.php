@@ -1,9 +1,9 @@
 <?php 
 // DB credentials.
 define('DB_HOST','localhost');
-define('DB_USER','root');
-define('DB_PASS','');
-define('DB_NAME','toursandtravels');
+define('DB_USER','asif');
+define('DB_PASS','12345678');
+define('DB_NAME','tms');
 // Establish database connection.
 try
 {

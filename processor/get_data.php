@@ -4,11 +4,11 @@ class get_data{
 
 	function __construct(){
 		$servername = "localhost";
-		$username = "root";
-		$password = "";
+		$username = "asif";
+		$password = "12345678";
 
 		try {
-		  $this->db = new PDO("mysql:host=$servername;dbname=toursandtravels", $username, $password);
+		  $this->db = new PDO("mysql:host=$servername;dbname=tms", $username, $password);
 		  // set the PDO error mode to exception
 		  $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		  // echo "Connection Successfull ";
