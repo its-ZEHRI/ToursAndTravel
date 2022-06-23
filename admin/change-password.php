@@ -101,8 +101,8 @@ return true;
 
   <div class="grid-form1">
 
-  	        	  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+  	        	  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php }
+				         else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 				
   <div class="panel-body">
 					<form  name="chngpwd" method="post" class="form-horizontal" onSubmit="return valid();">
@@ -143,7 +143,7 @@ return true;
 							</div>
 						</div>
 
-						<div class="col-sm-8 col-sm-offset-2">
+				 <div class="col-sm-8 col-sm-offset-2">
 				<button type="submit" name="submit" class="btn-primary btn">Submit</button>
 				<button type="reset" class="btn-inverse btn">Reset</button>
 			</div>

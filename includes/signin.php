@@ -1,66 +1,103 @@
 <?php
-// session_name("profile");
-// session_start();
-
-// if ( isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true ){
-//        header("location:myprofile.php");
-// }
-include("includes/config.php");
-session_start();
-if(isset($_POST['signin']))
-{
-$email=$_POST['email'];
-$name=$_POST['fname'];
-$password=md5($_POST['password']);
-$sql ="SELECT FullName, EmailId, Password FROM tblusers WHERE EmailId=:email";
-$query= $dbh -> prepare($sql);
-// $query-> bindParam(':fname', $name, PDO::PARAM_STR);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
-// $query-> bindParam(':password', $password, PDO::PARAM_STR);
-$query-> execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-if($query->rowCount() > 0)
-{
-// $_SESSION['fullname']=$results->FullName;
-$_SESSION['login']=$_POST['email'];
-
-echo "<script type='text/javascript'> document.location = 'myprofile.php'; </script>";
-} else{
-	
-	echo "<script>alert('Invalid Details');</script>";
-
-}
-
+include("../processor/get_processor.php");
+if(isset($_POST['signin'])){
+    $resp=$obj->tblusers();
 }
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content modal-info">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>						
-						</div>
-						<div class="modal-body modal-spa">
-							<div class="login-grids">
-								<div class="login">
-										
-									<div class="login-right">
-										<form method="post">
-											<h3>Signin with your account </h3>
-	<input type="text" name="email" id="email" placeholder="Enter your Email"  required="">	
-	<input type="password" name="password" id="password" placeholder="Password" value="" required="">	
-											<h4><a href="forgot-password.php">Forgot password</a></h4>
-											<!-- <h4><a href="" data-toggle="modal" data-target="#myModal">Don't have an account?singup</a></h4> -->
-											
-											<input type="submit" name="signin" value="SIGNIN">
-										</form>
-									</div>
-									<div class="clearfix"></div>							
-								</div>
-								<p>By logging in you agree to our <a href="page.php?type=terms">Terms and Conditions</a> and <a href="page.php?type=privacy">Privacy Policy</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+<head>
+    <meta charset="UTF-8">
+    <title>Final Year Project -- Login in</title>
+    <link rel="shortcut icon" href="./images/logo.jpg" type="image/x-icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="../css/signin.css">
+    <link rel="stylesheet" href="./styles/variables.css">
+     <style type="text/css">
+             .back-btn-wrap {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    display: inline-block;
+    text-align: center;
+    padding-top: .5rem;
+}
+
+.back-btn-wrap i {
+    padding: 0 5px;
+    color: var(--lightblue-color);
+}
+
+.back-btn {
+    text-decoration: none;
+    color: var(--lightblue-color);
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.back-btn:hover {
+    color: var(--lightblue-hover);
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--lightblue-color);
+    color: white;
+}
+
+footer p {
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 1rem !important;
+}
+         </style> 
+</head>
+
+<body>
+    <div id="login-form-wrap">
+        <h2>Login</h2>
+        <form action="signin.php" method="post" id="login-form">
+            <p>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </p>
+            <p>
+                <input type="text" id="password" name="password" placeholder="Password" required> 
+            </p>
+            <p>
+                <div class="btn btn-primary">
+                <input type="submit" style="color:blue;" name="signin" id="login" value="Login">
+                </div>
+            </p>
+        </form>
+        <div id="create-account-wrap">
+            <a href="../forgot-password.php">Forgot password?</a>
+            <p>Aren't you an account? <a href="signup.php">create account</a><p/>
+            <p>By logging in you agree to our <a href="../page.php?type=terms">Terms and Conditions</a> and <a href="../page.php?type=privacy">Privacy Policy</a></p>
+
+
+        </div>
+    </div>
+    <div class="back-btn-wrap">
+        <a class="back-btn" href="../index.php" style="color: blue;"><i class="fa fa-arrow-left"></i>Back to HomePage</a>
+    </div>
+    <!-- Footer  -->
+    <footer>
+        <!-- <p>By logging in you agree to our <a href="page.php?type=terms">Terms and Conditions</a> and <a href="page.php?type=privacy">Privacy Policy</a></p> -->
+
+        <p>Copyright &copy; Last Year Project AUP</p>
+    </footer>
+</body>
+
+</html>

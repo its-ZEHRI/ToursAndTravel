@@ -134,12 +134,6 @@ foreach($results as $result)
 <!--- footer-top ---->
 <!--- /footer-top ---->
 <?php include('includes/footer.php');?>
-<!-- signup -->
-<?php include('includes/signup.php');?>			
-<!-- //signu -->
-<!-- signin -->
-<?php include('includes/signin.php');?>			
-<!-- //signin -->
 <!-- write us -->
 <?php include('includes/write-us.php');?>
 </body>

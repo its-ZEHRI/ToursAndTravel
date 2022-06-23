@@ -3,7 +3,7 @@
 
 <div class="header-main">
 					<div class="logo-w3-agile">
-								<h1><a href="dashboard.php">Tourism Management System</a></h1>
+								<h1><a href="dashboard.php">Tours and Travels System</a></h1>
 							</div>
 				
 						

@@ -7,14 +7,12 @@
 			<li class="hm"><a href="index.html"><i class="fa fa-home"></i></a></li>
 			<li class="prnt"><a href="profile.php">My Profile</a></li>
 				<li class="prnt"><a href="change-password.php">Change Password</a></li>
-			<li class="prnt"><a href="tour-history.php">My Tour History</a></li>
-			<li class="prnt"><a href="issuetickets.php">Issue Tickets</a></li>
 		</ul>
 		<ul class="tp-hd-rgt wow fadeInRight animated" data-wow-delay=".5s"> 
 			<li class="tol">Welcome :</li>				
 			<li class="sig"><?php echo htmlentities($_SESSION['login']);?></li>
 			<li class="sigi"><a href="logout.php" >/ Logout</a></li>
-        </ul>
+    </ul>
 		<div class="clearfix"></div>
 	</div>
 </div><?php } else {?>
@@ -30,8 +28,8 @@
 		</ul>
 		<ul class="tp-hd-rgt wow fadeInRight animated" data-wow-delay=".5s"> 
 					
-			<li class="sig"><a href="#" data-toggle="modal" data-target="#myModal" >Sign Up</a></li> 
-			<li class="sigi"><a href="#" data-toggle="modal" data-target="#myModal4" >/ Sign In</a></li>
+			<li class="sig"><a href="includes/signup.php">Sign Up</a></li> 
+			<li class="sigi"><a href="includes/signin.php">/ Sign In</a></li>
         </ul>
 		<div class="clearfix"></div>
 	</div>
@@ -58,32 +56,23 @@
 <!--- /header ---->
 <!--- footer-btm ---->
 <div class="footer-btm wow fadeInLeft animated" data-wow-delay=".5s">
-	<div class="container">
-	<div class="navigation">
-			<nav class="navbar navbar-default">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				  </button>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
-					<nav class="cl-effect-1">
-						<ul class="nav navbar-nav">
-							<li><a href="index.php">Newsfeed</a></li>
-								<li><a href="myprofile.php">Profile</a></li>
-								<div class="clearfix"></div>
-
-						</ul>
-					</nav>
-				</div><!-- /.navbar-collapse -->	
-			</nav>
-		</div>
-		
-		<div class="clearfix"></div>
-	</div>
+	<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+<!--     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.php">Newsfeed</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="myprofile.php">Profile</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
 </div>

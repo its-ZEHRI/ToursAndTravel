@@ -44,7 +44,7 @@ include('includes/config.php');
 	
 
               <h4>  <?php echo htmlentities($_SESSION['msg']);?></h4>
-              <a href="#" data-toggle="modal" data-target="#myModal4">want to sign in</a>
+              <a href="includes/signin.php">want to sign in</a>
             
 			</div>
 		
@@ -53,11 +53,6 @@ include('includes/config.php');
 </div>
 <!--- /contact ---->
 <?php include('includes/footer.php');?>
-<!-- sign -->
-<?php include('includes/signup.php');?>
-<!-- signin -->
-<?php include('includes/signin.php');?>
-<!-- //signin -->
 <!-- write us -->
 <?php include('includes/write-us.php');?>
 <!-- //write us -->
