@@ -1,162 +1,154 @@
  <?php
-include("../processor/get_processor.php");
-if(isset($_POST['submit'])){
-    $resp=$obj->tblusersup();
-}
-//  include("config.php");
-// session_start();
-// error_reporting(0);
-// if(isset($_POST['submit']))
-// {
-// $fname=$_POST['fname'];
-// $mnumber=$_POST['mobilenumber'];
-// $email=$_POST['email'];
-// $password=md5($_POST['password']);
-// $sql="INSERT INTO  tblusers(FullName,MobileNumber,EmailId,Password) VALUES(:fname,:mnumber,:email,:password)";
-// $query = $dbh->prepare($sql);
-// $query->bindParam(':fname',$fname,PDO::PARAM_STR);
-// $query->bindParam(':mnumber',$mnumber,PDO::PARAM_STR);
-// $query->bindParam(':email',$email,PDO::PARAM_STR);
-// $query->bindParam(':password',$password,PDO::PARAM_STR);
-// $query->execute();
-// $lastInsertId = $dbh->lastInsertId();
-// if($lastInsertId)
-// {
-// $_SESSION['msg']="You are Scuccessfully registered. Now you can login ";
-// header('location:../thankyou.php');
-// }
-// else 
-// {
-// $_SESSION['msg']="Something went wrong. Please try again.";
-// header('location:thankyou.php');
-// }
-// }
-?>
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+    session_name("travel");
+    session_start();
 
-<head>
-    <meta charset="UTF-8">
-    <title>Final Year Project -- Register</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./images/logo.jpg" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-    <!-- <link rel="stylesheet" href="./styles/variables.css"> -->
-    <link rel="stylesheet" href="../css/signup.css">
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
+        header("location: ../index.php");
+    }
 
-             <!--Javascript for check email availabilty-->
-<script>
-function checkAvailability() {
+    include("../processor/get_processor.php");
+    $resp = "";
+    if (isset($_POST['sign-up'])) {
+        $resp = $obj->userRegister();
+    }
+    ?>
+ <!DOCTYPE html>
+ <html lang="en" dir="ltr">
 
-$("#loaderIcon").show();
-jQuery.ajax({
-url: "../check_availability.php",
-data:'emailid='+$("#email").val(),
-type: "POST",
-success:function(data){
-$("#user-availability-status").html(data);
-$("#loaderIcon").hide();
-},
-error:function (){}
-});
-}
-</script>
-     <style type="text/css">
-             .back-btn-wrap {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    display: inline-block;
-    text-align: center;
-    padding-top: .5rem;
-}
+ <head>
+     <meta charset="UTF-8">
+     <title>Final Year Project -- Register</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+     <link rel="shortcut icon" href="./images/logo.jpg" type="image/x-icon">
+     <!-- bootstrap -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+     <!--Javascript for check email availabilty-->
+     <script>
+         function checkAvailability() {
+             $("#loaderIcon").show();
+             jQuery.ajax({
+                 url: "../check_availability.php",
+                 data: 'emailid=' + $("#email").val(),
+                 type: "POST",
+                 success: function(data) {
+                     $("#user-availability-status").html(data);
+                     $("#loaderIcon").hide();
+                 },
+                 error: function() {}
+             });
+         }
+     </script>
+     <style>
+         body {
+             height: 100vh;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.623)), url(../images/main.jpg);
+             background-size: cover;
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-position: center;
+         }
 
-.back-btn-wrap i {
-    padding: 0 5px;
-    color: var(--lightblue-color);
-}
+         .back-btn-wrap {
+             position: absolute;
+             top: 0;
+             left: 10px;
+             display: inline-block;
+             text-align: center;
+             padding-top: .5rem;
+         }
 
-.back-btn {
-    text-decoration: none;
-    color: var(--lightblue-color);
-    border-radius: 5px;
-    font-size: 1rem;
-}
+         .back-btn-wrap i {
+             padding: 0 5px;
+             color: var(--lightblue-color);
+         }
 
-.back-btn:hover {
-    color: var(--lightblue-hover);
-}
+         .back-btn {
+             text-decoration: none;
+             color: var(--lightblue-color);
+             border-radius: 5px;
+             font-size: 1rem;
+         }
 
+         #sign-up {
+             background-color: #1A5C80;
+             color: #fff;
+             padding: 10px 3rem;
+             width: 100%;
+             margin-bottom: 1rem;
+             margin-top: 1rem;
 
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--lightblue-color);
-    color: white;
-}
+         }
+     </style>
+ </head>
 
-footer p {
-    letter-spacing: 1px;
-    font-weight: 600;
-    font-size: 1rem !important;
-}
-         </style> 
+ <body>
+     <div class="container">
+         <div class="row">
+             <div class="col-md-3"></div>
+             <div class="col-md-6 rounded p-0 bg-light">
+                 <h3 class="p-3 text-center m-0">Registration</h3>
+                 <hr class="m-0 mb-3">
+                 <form action="signup.php" method="post" class="px-5" enctype="multipart/form-data">
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Name</label>
+                         <input type="text" name="name" required class="form-control" id="" placeholder="Enter your Name">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Phone Number</label>
+                         <input type="text" name="number" required maxlength="11" class="form-control" id="" placeholder="Enter your Name">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Email</label>
+                         <input type="email" name="email" autocomplete="off" class="form-control" onblur="checkAvailability()" id="email" required placeholder="Enter your Email">
+                         <span id="user-availability-status" style="font-size:12px;"></span>
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Password</label>
+                         <input type="password" name="password" autocomplete="off" class="form-control" placeholder="Enter your Password">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Confirm Password</label>
+                         <input type="password" name="c_password" autocomplete="off" class="form-control" placeholder="Enter your Password">
+                     </div>
+                     <div class="mb-3">
+                         <label for="" class="form-label mb-0">Choose Image</label>
+                         <input class="form-control" onchange="validateSize(this)" name="image" type="file" id="">
 
+                         <div class="d-flex justify-content-between align-items-center my-2">
+                             <p class="m-0 text-danger"><?php echo $resp ?></p>
+                             <p class="m-0 text-muted">Already have an account <a style="text-decoration: none" href="signin.php">Login</a></p>
+                         </div>
+                     </div>
+                     <div class="mb-3 text-center">
+                         <input type="submit" name="sign-up" class="btn " id="sign-up" value="Sign Up">
+                     </div>
+                 </form>
+             </div>
+             <div class="col-md-3"></div>
+         </div>
+     </div>
+     <!-- back button -->
+     <div class="back-btn-wrap">
+         <a class="back-btn" href="../index.php" style="color: #fff;"><i class="fa fa-arrow-left"></i>Back to HomePage</a>
+     </div>
 
+     <script>
+         function validateSize(input) {
+             const fileSize = input.files[0].size // in MiB
+             if (fileSize > 7097152) {
+                 alert('File size exceeds 7 MiB');
+                 // $(file).val(''); //for clearing with Jquery
+             } else {
+                 // Proceed further
+             }
+         }
+     </script>
 
-</head>
+ </body>
 
-<body>
-    <div class="container">
-        <div class="title">Registration</div>
-        <div class="content">
-            <form action="signup.php" method="post">
-                <div class="user-details">
-                    <div class="input-box">
-                        <span class="details">Full Name</span>
-                        <input type="text" name="fname" placeholder="Enter your Fname" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Phone Number</span>
-                        <input type="text" name="mobilenumber" maxlength="11" placeholder="Enter your number" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Email</span>
-                        <input type="text" name="email" autocomplete="off" id="email" onblur="checkAvailability()" placeholder="Enter your email" required>
-                        <span id="user-availability-status" style="font-size:12px;"></span> 
-
-                    </div>
-                    
-                    <div class="input-box">
-                        <span class="details">Password</span>
-                        <input type="password" name="password" autocomplete="off" placeholder="Enter your password" required>
-                    </div>
-                </div>
-
-                <div class="button">
-                    <input type="submit" name="submit" value="Register">
-                </div>
-                <p>By logging in you agree to our <a href="../page.php?type=terms">Terms and Conditions</a> and <a href="../page.php?type=privacy">Privacy Policy</a></p>
-            </form>
-        </div>
-    </div>
-    <div class="back-btn-wrap">
-        <a class="back-btn" href="../index.php" style="color:blue;"><i class="fa fa-arrow-left"></i>Back to HomePage</a>
-    </div>
-    <!-- Footer  -->
-    <footer>
-        <!-- <p>By logging in you agree to our <a href="page.php?type=terms">Terms and Conditions</a> and <a href="page.php?type=privacy">Privacy Policy</a></p> -->
-
-        <p>Copyright &copy; Last Year Project AUP</p>
-    </footer>
-</body>
-
-</html>
+ </html>

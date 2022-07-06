@@ -3,80 +3,124 @@ session_start();
 include('includes/config.php');
 if(isset($_POST['login']))
 {
-$uname=$_POST['username'];
-$password=md5($_POST['password']);
-$sql ="SELECT * FROM admin WHERE UserName=:uname and Password=:password";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':uname', $uname, PDO::PARAM_STR);
-$query-> bindParam(':password', $password, PDO::PARAM_STR);
-$query-> execute();
-$results=$query->fetch(PDO::FETCH_ASSOC);
+    $uname=$_POST['email'];
+    $password=md5($_POST['password']);
+    $sql ="SELECT * FROM admin WHERE UserName=:uname and Password=:password";
+    $query= $dbh -> prepare($sql);
+    $query-> bindParam(':uname', $uname, PDO::PARAM_STR);
+    $query-> bindParam(':password', $password, PDO::PARAM_STR);
+    $query-> execute();
+    $results=$query->fetch(PDO::FETCH_ASSOC);
 if($query->rowCount() > 0)
 {
-$_SESSION['alogin']=$_POST['username'];
-echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
+    $_SESSION['alogin']=$_POST['email'];
+    echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
 } else{
-	
-	echo "<script>alert('Invalid Details');</script>";
+
+    echo "<script>alert('Invalid Details');</script>";
 
 }
 
 }
+$resp='';
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<!DOCTYPE HTML>
-<html>
 <head>
-<title>TMS | Admin Sign in</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="css/morris.css" type="text/css"/>
-<!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="css/jquery-ui.css"> 
-<!-- jQuery -->
-<script src="js/jquery-2.1.4.min.js"></script>
-<!-- //jQuery -->
-<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
-<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-<!-- //lined-icons -->
-</head> 
+    <meta charset="UTF-8">
+    <title>Final Year Project -- Login in</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/logo.jpg" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.623)), url(../images/main.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .back-btn-wrap {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            display: inline-block;
+            text-align: center;
+            padding-top: .5rem;
+        }
+
+        .back-btn-wrap i {
+            padding: 0 5px;
+            color: var(--lightblue-color);
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--lightblue-color);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #login {
+            background-color: #1A5C80;
+            color: #fff;
+            width: 100%;
+            padding: 10px 3rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+
+        }
+    </style>
+
+</head>
+
 <body>
-	<div class="main-wthree">
-	<div class="container">
-	<div class="sin-w3-agile">
-		<h2>Sign In</h2>
-		<form  method="post">
-			<div class="username">
-				<span class="username">Username:</span>
-				<input type="text" name="username" class="name" placeholder="" required="">
-				<div class="clearfix"></div>
-			</div>
-			<div class="password-agileits">
-				<span class="username">Password:</span>
-				<input type="password" name="password" class="password" placeholder="" required="">
-				<div class="clearfix"></div>
-			</div>
-			
-			<div class="login-w3">
-					<input type="submit" class="login" name="login" value="Sign In">
-			</div>
-			<div class="clearfix"></div>
-		</form>
-				<div >
-					<a style="color: white; font-size: 25px;" href="../index.php">Back to home</a>
-				</div>
-				
-	</div>
-	</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 rounded p-0 bg-light">
+                <h2 class="p-3 text-center m-0">Admin Login</h2>
+                <hr class="m-0 mb-3">
+                <div class="px-5">
+                    <form  method="post" class="px-5">
+                        <div class="mb-3">
+                            <label for="" class="form-label ">Email</label>
+                            <input type="text" name="email" autocomplete="off" class="form-control p-3" required placeholder="Enter your Email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label ">Password</label>
+                            <input type="password" name="password" autocomplete="off" class="form-control p-3" placeholder="Enter your Password">
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center my-2">
+                             <p class="m-0 text-danger"><?php echo $resp ?></p>
+                            <!-- <p class="m-0 text-muted">Don't have an account <a style="text-decoration: none" href="signup.php">sign up</a></p> -->
+                        </div>
+                        <div class="mb-3 text-center">
+                            <input type="submit" name="login" class="btn" id="login" value="Log In">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+    <div class="back-btn-wrap">
+        <a class="back-btn" href="../index.php" style="color: #fff;"><i class="fa fa-arrow-left"></i>Back to HomePage</a>
+    </div>
 </body>
+
 </html>

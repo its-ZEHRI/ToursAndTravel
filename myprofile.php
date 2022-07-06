@@ -1,152 +1,263 @@
 <?php
+session_name('travel');
 session_start();
 error_reporting(0);
-if(isset($_SESSION['login'])==true){
-}else{
-	header("location:includes/signin.php");
-}
-include('processor/get_processor.php');
-if(isset($_POST['submit'])){
-	$resp=$obj->add_user_profile();
-	if($resp == "ok"){
-    	header("location:myprofile.php");
+if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
+} else
+    header("location:includes/signin.php");
 
+include('processor/get_processor.php');
+$p_resp = "";
+if (isset($_POST['submit'])) {
+    $p_resp = $obj->addPost();
+    if ($p_resp == "ok") {
+        header("location:myprofile.php");
+    }
 }
+if (isset($_POST['delete'])) {
+    $resp = $obj->deletePost();
 }
-if(isset($_POST['delete'])){
-	$resp=$obj->delete_user_photo();
+if (isset($_POST['Update-profile-image'])) {
+    $resp = $obj->updateProfileImage();
 }
-$user_profile=$obj->show_user_profile();
+if (isset($_POST['change-profile-name'])) {
+    $resp = $obj->updateProfileName();
+}
+$user = $obj->getUser();
+$userPost = $obj->getUserPost();
 ?>
 <!DOCTYPE HTML>
 <html>
+
 <head>
-<title>TMS  | Package List</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
-<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
-<link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-<link href="css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-<!-- Custom Theme files -->
-<script src="js/jquery-1.12.0.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+    <title>TMS | Package List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+    <!-- Custom Theme files -->
+    <script src="js/jquery-1.12.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/068fbca468.js" crossorigin="anonymous"></script>
+    <!--//end-animate-->
+    <style type="text/css">
+        .edit-image-icon {
+            position: absolute;
+            bottom: -30%;
+            left: 16%;
+            color: red;
+            cursor: pointer;
 
-<!-- image magnifier start -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha512-IsNh5E3eYy3tr/JiX2Yx4vsCujtkhwl7SLqgnwLNgf04Hrt9BT9SXlLlZlWx+OK4ndzAoALhsMNcCmkggjZB1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" integrity="sha512-+EoPw+Fiwh6eSeRK7zwIKG2MA8i3rV/DGa3tdttQGgWyatG/SkncT53KHQaS5Jh9MNOT3dmFL0FjTY08And/Cw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- image magnifier end -->
-<!--animate-->
-<!-- hello i am commits -->
-<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
-<script src="js/wow.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			$('.gallerys').magnificPopup({
-				type:'image',
-				delegate:'a',
-				mainClass: 'mfp-fade',
+        }
 
-			      zoom: {
-			    enabled: true, 
-			    duration: 300,
-			    easing: 'ease-in-out'
-			},
-			gallery:{
-				enabled:true
-			}
-			});
-		});
-		 new WOW().init();
-	</script>
-<!--//end-animate-->
-<style type="text/css">
-	
-</style>
+        #profile_image_icons {
+            position: absolute;
+            top: 85%;
+            left: 9.5%;
+            opacity: 0;
+        }
+
+        #profile_image:hover {
+            opacity: 0.5;
+        }
+
+         #profile_image:hover~#profile_image_icons {
+            opacity: 1;
+        }
+
+        #profile_image_icons:hover~#profile_image {
+            opacity: 0.5;
+        }
+
+        #profile_image_icons:hover {
+            opacity: 1;
+        }
+
+        #profile_image_icons:hover ~ #profile_image {
+            opacity: 0.5!important;
+        } 
+    </style>
 </head>
-<body>
-<?php include('includes/header.php');?>
 
+<body style="background-color:rgba(0, 0, 0, 0.05)">
+    <?php include('includes/header.php'); ?>
 
+    <main class="pt-5">
+        <!-- banner -->
+        <div class="position-relative">
+            <div style="background-image:url('images/13.jpg'); background-size:cover; height:15rem">
+            </div>
+            <img id="profile_image" src="images/<?php if ($user[0]->image == null) echo "noimage.png";
+                                                else echo $user[0]->image ?>" width="210px" height="210px" alt="" class="rounded-circle" style="object-fit:cover; position:absolute; top:50%; left:5%;border:3px solid white">
+            <div id="profile_image_icons" class="">
+                <i class="fa-solid fa-pen-to-square text-info p-2" style="font-size: 30px; cursor:pointer"></i>
+                <i class="fa-solid fa-circle-minus p-2 text-danger" style="font-size: 30px; cursor:pointer"></i>
+            </div>
+            <h2 style="position:absolute; bottom: -30%; left:20%"><?php echo $user[0]->FullName; ?></h2>
+            <span id="profile_image_icon" class="edit-image-icon bg-info p-2">edit</span>
+        </div>
+        <!-- banner end -->
 
-<!--- banner ---->
-<div class="banner-3">
+        <div style="height: 8rem;"></div>
+        <div class="container px-5">
+            <div class="row">
+                <!-- post -->
+                <div class="col-md-7 px-5">
+                    <div class="card text-center">
+                        <div class="card-header">Post</div>
+                        <div class="card-body px-5">
+                            <h5 class="card-title">Post Something Special</h5>
+                            <form action="myprofile.php" method="POST" enctype="multipart/form-data">
+                                <div class="form-group text-left">
+                                    <label for="">Description</label>
+                                    <input type="text" name="description" class="form-control " id="" placeholder="Something...!">
+                                </div>
+                                <div class="form-group text-left">
+                                    <label for="">Picture</label>
+                                    <input type="file" name="image" onchange="validateSize(this)" class="form-control " id="" placeholder="Something...!">
+                                </div>
+                                <div class="text-left">
+                                    <input type="submit" name="submit" value="Post" class="btn btn-outline-success px-5">
+                                </div>
+                            </form>
+                            <small class="text-danger"><?php echo $p_resp; ?></small>
+                        </div>
+                        <div class="card-footer text-muted">ZEHRI</div>
+                    </div>
+                </div>
+                <!-- post end -->
+                <div class="col-md-1"></div>
+                <!-- update profile -->
+                <div class="col-md-4 ">
+                    <div class="border bg-light rounded">
+                        <h3 class="m-3">Update Profile</h3>
+                        <hr>
+                        <div class="p-3">
+                            <!-- for user name -->
+                            <form action="myprofile.php" method="POST">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Name</label>
+                                    <input type="text" name="name" class="form-control" value="<?php echo $user[0]->FullName ?> " id="" placeholder="Haseena...!">
+                                </div>
 
-	<div class="container">
-		<h1 class="wow zoomIn animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: zoomIn; text-transform: uppercase; color: #4DB321;">Welcome:<?php echo htmlentities($_SESSION['name']);  ?></h1>
+                                <div class="text-end">
+                                    <input type="submit" class="btn btn-outline-primary " name="change-profile-name" value="Update">
+                                </div>
+                            </form>
 
-	</div>
+                            <!-- for user image -->
+                            <form action="myprofile.php" method="POST" class="d-none" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Image</label>
+                                    <input type="file" name="image" class="form-control" id="change_profile_image">
+                                </div>
+                                <div class="text-end">
+                                    <input type="submit" id="change_profile_form" class="btn btn-outline-primary" name="Update-profile-image">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- update profile end -->
+            </div>
+        </div>
 
-</div>
+        <!-- gallery -->
+        <div class="container mt-5 py-5">
+            <h1>Gallery</h1>
+            <hr class="m-0">
+            <div class="container mt-5">
+                <div class="row">
+                    <?php foreach ($userPost as $key => $value) { ?>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="ratio ratio-4x3">
+                                    <img class="card-img-top" src="images/<?php echo $value->p_image; ?>" alt="Card image cap" style="width:100%; background-size:contain; object-fit:cover; background-position:center">
+                                </div>
+                                <div class="card-body">
+                                    <!-- <h5 class="card-title">Title</h5> -->
+                                    <p class="card-text"><?php echo $value->description; ?></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <form method="post" class="text-right" action="myprofile.php">
+                                            <input type="hidden" name="post_id" value="<?php echo $value->id; ?>">
+                                            <button class="btn btn-sm btn-outline-danger " type="submit" name="delete" onclick="return confirm('Are you sure you want to delete the record')">Delete Post</button>
+                                        </form>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+        <!-- gallery end -->
 
-<!--- /banner ---->
-<!--- rooms ---->
-<div class="rooms">
-	<div class="container">
-		<div class="row">
-			
-	<div class="privacy">
-	<div class="container">
-		<h3 class="wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown;">Upload Picture</h3>
-		<form method="post">
-			<p style="width: 350px;">
+    </main>
 
-			<b>Title</b>  <input type="text" name="title" class="form-control" id="exampleInputTitle" placeholder="Title" required="">
-			</p>
-
-			<p style="width: 350px;">
-			<b>Picture</b>
-			<input type="file" class="form-control" name="picture" required="required">
-			</p>
-
-			<p style="width: 350px;">
-			<input type="submit" name="submit" class="btn-primary btn">
-
-			</p>
-			</form>
-</div>
-</div>
-</div>
-
-       <!-- Gallery -->
-  
-  <div class="container">
-  <h3 class="wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown; margin-bottom: 30px; color: #4DB321;">Gallery</h3>
-   <div class="row gallerys">
-   <?php foreach ($user_profile as $key => $value) { ?>
-   	
-   <div class="col-md-4">
-   	<form method="post" action="myprofile.php">
-  		<input type="hidden" name="userphoto" value="<?php echo $value->id; ?>">
-          <button class="fa-solid fa-trash" type="submit" name="delete" style="position: relative; top: 40px; left: 10px;" onclick="return confirm('Are you sure you want to delete the record')"></button>
-     </form>
-    <div class="border bg-white mb-4">
-    <a href="images/<?php echo $value->photos; ?>" style="text-decoration: none;">
-    <img src="images/<?php echo $value->photos; ?>" class="img_fluid img-thumbnail" alt="image missing" width="100%">
-    </a>
-    <!-- <div class="caption mt-4 mb-4 text-center">
-    <h4>Title</h4>
-    <p style="color: #6C757D;"><?php echo $value->title; ?></p>
-    </div> -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-   	<?php } ?>
-    </div>
+    <!-- modal end-->
 
-  </div>
-</div>		
-</div>
-<!--- /rooms ---->
+    <script>
+        function validateSize(input) {
+            const fileSize = input.files[0].size // in MiB
+            if (fileSize > 7097152) {
+                alert('File size exceeds 7 MiB');
+                // $(file).val(''); //for clearing with Jquery
+            } else {
+                // Proceed further
+            }
+        }
+    </script>
 
-<!--- /footer-top ---->
-<?php include('includes/footer.php');?>
-<!-- write us -->
-<?php include('includes/write-us.php');?>			
-<!-- //write us -->
+    <script>
+        $(document).ready(function() {
+            $(this).on('click', '#profile_image_icon', function() {
+                $('#change_profile_image').click()
+            })
+
+            $(this).on('change', '#change_profile_image', function() {
+                $('#change_profile_form').click();
+            })
+            $("#profile_image").mouseenter(function(){
+                $('#profile_image').css('opacity','0.5')
+            })
+            $("#profile_image").mouseleave(function(){
+                $('#profile_image').css('opacity','1')
+            })
+            $("#profile_image_icons").mouseenter(function(){
+                $('#profile_image').css('opacity','0.5')
+            })
+            $("#profile_image_icons").mouseleave(function(){
+                $('#profile_image').css('opacity','1')
+            })
+        })
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 </body>
+
 </html>
