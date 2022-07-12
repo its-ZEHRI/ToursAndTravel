@@ -5,8 +5,8 @@ class get_data
 	function __construct()
 	{
 		$servername = "localhost";
-		$username = "ZEHRI";
-		$password = "ijaz1234";
+		$username = "asif";
+		$password = "12345678";
 		try {
 
 			$this->db = new PDO("mysql:host=$servername;dbname=toursandtravels", $username, $password);
@@ -206,6 +206,21 @@ class get_data
 		$stmt = $this->db->prepare($query);
 		$stmt->execute(array($id));
 		return "Record Deleted Successfully";
+	}
+
+	function reportPost(){
+		$post_id = $_POST['post_id'];
+		$user_id = $_POST['user_id'];
+
+		try {
+			$query = "INSERT INTO reports(post_id,user_id) VALUES(?,?)";
+			$stmt = $this->db->prepare($query);
+			$stmt->execute(array($post_id,$user_id));
+			return 'ok';
+		} catch (\Throwable $th) {
+			return $th->getMessage();
+		}
+		
 	}
 
 	// update profile image

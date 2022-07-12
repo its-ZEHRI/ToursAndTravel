@@ -4,8 +4,8 @@ class Package{
     function __construct()
 	{
 		$servername = "localhost";
-		$username = "ZEHRI";
-		$password = "ijaz1234";
+		$username = "asif";
+		$password = "12345678";
 		try {
 			$this->db = new PDO("mysql:host=$servername;dbname=toursandtravels", $username, $password);
 			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

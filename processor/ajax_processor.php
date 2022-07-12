@@ -23,4 +23,7 @@
     }else if($op == 'getSinglePostLikes'){
         $resp = $likeobj->getSinglePostLikes($_POST['post_id']);
         echo $resp;
+    }else if($op == 'reportPost'){
+        $resp = $ajax_obj->reportPost();
+        echo $resp;
     }

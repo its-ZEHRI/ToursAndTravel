@@ -134,15 +134,20 @@ $packages  = $object->get_packages();
 							<div class="ms-2">
 								<h3 class="m-0"><?php echo $value->FullName ?></h3>
 							</div>
-							<span id="report_icon" style="position:absolute; right:0; top:0; cursor:pointer" class="fa-solid fa-ellipsis-vertical"></span>
-							<form id="report_form" action="#" class="border d-none" style="position:absolute; right:20px; top:-5px;">
-								<input type="hidden" name="" value="">
-								<input type="submit" class="" style="border: none; outline:none" value="Report">
-							</form>
+							<?php if (isset($_SESSION['id']) && $_SESSION['id'] != $value->user_id) { ?>
+								<span id="report_icon" style="position:absolute; right:0; top:0; cursor:pointer" class="report_icon fa-solid fa-ellipsis-vertical"></span>
+								<div class="report_div">
+									<form id="report_form" class="border d-none" style="position:absolute; right:20px; top:-5px;">
+										<input type="hidden" name="post_id" class="post_id" value="<?php echo $value->id ?>">
+										<input type="hidden" name="user_id" value="<?php echo $_SESSION['id']; ?>" class="user_id">
+										<input type="submit" class="" style="border: none; outline:none" value="Report">
+									</form>
+								</div>
+							<?php } ?>
 						</div>
 						<!-- Description -->
 						<div class="px-3 mt-3">
-							<p class="m-0"><?php echo $value->description; ?></p>
+							<p class="m-0 mb-2"><?php echo $value->description; ?></p>
 						</div>
 						<!-- Image -->
 						<div class="m-0">
@@ -163,7 +168,6 @@ $packages  = $object->get_packages();
 									</div>
 								</form>
 								<div class="likes_div">
-
 									<!-- likes -->
 									<?php $AuthUserLike = $likeobj->getAuthUserLikes($_SESSION['id'], $value->id);
 									if ($AuthUserLike == 0) { ?>
@@ -292,8 +296,28 @@ $packages  = $object->get_packages();
 
 			$(this).on('click', '#report_icon', function() {
 				$('#report_form').toggleClass('d-none')
-			})
+			});
 
+			$(this).on('submit','#report_form',function(event){
+				event.preventDefault();
+				var formdata = new FormData(this);
+				formdata.append('op','reportPost');
+				var parent = $(this).parentsUntil('parent');
+				$.ajax({
+					type: 'post',
+					url: "processor/ajax_processor.php",
+					data: formdata,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function (response) {
+						if(response == 'ok')
+							// alert('done');
+							parent.find('#report_icon').addClass('d-none');
+							parent.find('#report_form').addClass('d-none');
+					}
+				});
+			});
 
 			// ----
 			// SUBMIT COMMENTS FORM
@@ -390,9 +414,8 @@ $packages  = $object->get_packages();
 						alert(error);
 					}
 				});
-
 			});
-		}) //end of ready
+		}); //end of ready
 
 		//GET SINGLE POST LIKES WHEN THE POST IS LIKED
 		function getPostLikes(post_id, user_id) {
