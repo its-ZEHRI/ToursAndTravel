@@ -10,7 +10,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 		$pimage = $_FILES["packageimage"]["name"];
 		move_uploaded_file($_FILES["packageimage"]["tmp_name"], "pacakgeimages/" . $_FILES["packageimage"]["name"]);
-		$sql = "update Packages set PackageImage=:pimage where PackageId=:imgid";
+		$sql = "update packages set PackageImage=:pimage where PackageId=:imgid";
 		$query = $dbh->prepare($sql);
 
 		$query->bindParam(':imgid', $imgid, PDO::PARAM_STR);
@@ -65,6 +65,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 			}
 		</style>
+		<style>
+		#menu li a {
+			background-color: rgba(255, 255, 255, 1) !important;
+			color: #000 !important;
+		}
+
+		#menu li a:hover {
+			background-color: #4485AF !important;
+			color: #fff !important;
+		}
+	</style>
 
 	</head>
 
@@ -94,7 +105,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<form class="form-horizontal" name="package" method="post" enctype="multipart/form-data">
 									<?php
 									$imgid = intval($_GET['imgid']);
-									$sql = "SELECT PackageImage from TblTourPackages where PackageId=:imgid";
+									$sql = "SELECT PackageImage from packages where PackageId=:imgid";
 									$query = $dbh->prepare($sql);
 									$query->bindParam(':imgid', $imgid, PDO::PARAM_STR);
 									$query->execute();

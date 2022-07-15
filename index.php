@@ -93,11 +93,13 @@ $packages  = $package_obj->get_packages();
 					<?php
 					if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) { ?>
 						<!-- user logged in sidebar -->
+						<a href="myprofile.php" style="text-decoration: none;">
 						<div class="d-flex align-items-center p-3">
 							<img src="images/<?php if ($_SESSION['image'] == null) echo "noimage.png";
 												else echo $_SESSION['image'] ?>" width="70px" height="70px" style="object-fit:cover;" class="rounded-circle align-self-" alt="">
 							<h3 class="ms-3 mt-2 "><?php echo $_SESSION['user_name']; ?></h3>
 						</div>
+						</a>
 						<hr>
 						<div class="p-2 sidebar-menu">
 							<a href="myprofile.php">Profile</a>

@@ -53,6 +53,7 @@
 
     <main class="pt-5 bg-light">
         <div class="container p-5">
+            <a href="index.php" style="text-decoration: none;"><-Home</a>
             <div class="row bg-light p-3" style="box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.3);">
                 <div class="col-md-7 px-5 package-details">
                     <h2><?php echo $package[0]->PackageName ?></h2>

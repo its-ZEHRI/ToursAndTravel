@@ -1,33 +1,36 @@
 <?php
-session_name('travel');
-session_start();
-error_reporting(0);
-if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
-} else
-    header("location:includes/signin.php");
+    session_name('travel');
+    session_start();
+    error_reporting(0);
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
+    } else
+        header("location:includes/signin.php");
 
-include('processor/get_processor.php');
-$p_resp = "";
-if (isset($_POST['submit'])) {
-    $p_resp = $obj->addPost();
-    if ($p_resp == "ok") {
-        header("location:myprofile.php");
+    include('processor/get_processor.php');
+    $p_resp = "";
+    if (isset($_POST['submit'])) {
+        $p_resp = $obj->addPost();
+        if ($p_resp == "ok") {
+            header("location:myprofile.php");
+        }
     }
-}
-if (isset($_POST['delete'])) {
-    $resp = $obj->deletePost();
-}
-if (isset($_POST['Update-profile-image'])) {
-    $resp = $obj->updateProfileImage();
-}
-if (isset($_POST['change-profile-name'])) {
-    $resp = $obj->updateProfileName();
-}
-$user = $obj->getUser();
-$userPost = $obj->getUserPost();
+    if (isset($_POST['delete'])) {
+        $resp = $obj->deletePost();
+    }
+    if (isset($_POST['Update-profile-image'])) {
+        $resp = $obj->updateProfileImage();
+    }
+    if (isset($_POST['change-profile-name'])) {
+        $resp = $obj->updateProfileName();
+    }
+    if(isset($_POST['update_post'])){
+        $resp = $obj->updatePost();
+    }
+    $user = $obj->getUser();
+    $userPost = $obj->getUserPost();
 ?>
 <!DOCTYPE HTML>
-<html>
+<html style="scroll-behavior: smooth;">
 
 <head>
     <title>TMS | Package List</title>
@@ -102,26 +105,27 @@ $userPost = $obj->getUserPost();
         </div>
         <!-- banner end -->
 
-        <div style="height: 8rem;"></div>
+        <div style="height: 8rem;" id="post"></div>
         <div class="container px-5">
-            <div class="row">
+            <div class="row" id="post">
                 <!-- post -->
                 <div class="col-md-7 px-5">
                     <div class="card text-center">
                         <div class="card-header">Post</div>
                         <div class="card-body px-5">
-                            <h5 class="card-title">Post Something Special</h5>
+                            <h5 class="card-title" id="post-title">Post Something Special</h5>
                             <form action="myprofile.php" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="post_id" id="post_id">
                                 <div class="form-group text-left">
                                     <label for="">Description</label>
-                                    <input type="text" name="description" class="form-control " id="" placeholder="Something...!">
+                                    <input type="text" name="description" class="form-control " id="description" placeholder="Something...!">
                                 </div>
-                                <div class="form-group text-left">
+                                <div class="form-group text-left" id="image">
                                     <label for="">Picture</label>
                                     <input type="file" name="image" onchange="validateSize(this)" class="form-control " id="" placeholder="Something...!">
                                 </div>
                                 <div class="text-left">
-                                    <input type="submit" name="submit" value="Post" class="btn btn-outline-success px-5">
+                                    <input type="submit" name="submit" id='submit_btn' value="Post" class="btn btn-outline-success px-5">
                                 </div>
                             </form>
                             <small class="text-danger"><?php echo $p_resp; ?></small>
@@ -173,20 +177,20 @@ $userPost = $obj->getUserPost();
             <div class="container mt-5">
                 <div class="row">
                     <?php foreach ($userPost as $key => $value) { ?>
-                        <div class="col-md-4">
+                        <div class="col-md-4 parent">
                             <div class="card mb-3">
                                 <div class="ratio ratio-4x3">
                                     <img class="card-img-top" src="images/<?php echo $value->p_image; ?>" alt="Card image cap" style="width:100%; background-size:contain; object-fit:cover; background-position:center">
                                 </div>
                                 <div class="card-body">
                                     <!-- <h5 class="card-title">Title</h5> -->
-                                    <p class="card-text"><?php echo $value->description; ?></p>
+                                    <p class="card-text description"><?php echo $value->description; ?></p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <form method="post" class="text-right" action="myprofile.php">
-                                            <input type="hidden" name="post_id" value="<?php echo $value->id; ?>">
+                                            <input type="hidden" name="post_id" class="post_id" value="<?php echo $value->id; ?>">
                                             <button class="btn btn-sm btn-outline-danger " type="submit" name="delete" onclick="return confirm('Are you sure you want to delete the record')">Delete Post</button>
                                         </form>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Edit</button>
+                                        <a href="#post" class="btn btn-primary edit">Edit</a>
                                     </div>
                                 </div>
                             </div>
@@ -198,26 +202,6 @@ $userPost = $obj->getUserPost();
         <!-- gallery end -->
 
     </main>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- modal end-->
 
     <script>
         function validateSize(input) {
@@ -233,6 +217,15 @@ $userPost = $obj->getUserPost();
 
     <script>
         $(document).ready(function() {
+            $(this).on('click','.edit',function(event){
+                var edit = $(this).parentsUntil('.parent');
+                $('#post-title').text('Update Post');
+                $('#post_id').val(edit.find('.post_id').val());
+                $('#description').val(edit.find('.description').text());
+                $('#image').addClass('d-none');
+                $('#submit_btn').val('Update')
+                $('#submit_btn').attr('name','update_post');
+            });
             $(this).on('click', '#profile_image_icon', function() {
                 $('#change_profile_image').click()
             })
@@ -252,6 +245,8 @@ $userPost = $obj->getUserPost();
             $("#profile_image_icons").mouseleave(function(){
                 $('#profile_image').css('opacity','1')
             })
+
+           
         })
     </script>
 

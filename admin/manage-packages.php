@@ -90,7 +90,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 								</thead>
 								<tbody>
 									<?php
-									$sql = "SELECT * from Packages";
+									$sql = "SELECT * from Packages ORDER BY PackageId desc";
 									$query = $dbh->prepare($sql);
 									$query->execute();
 									$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -104,7 +104,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($result->PackageLocation); ?></td>
 												<td><?php echo htmlentities($result->PackagePrice); ?>/-</td>
 												<td><?php echo htmlentities($result->Creationdate); ?></td>
-												<td><a href="update-package.php?pid=<?php echo htmlentities($result->PackageId); ?>"><button type="button" style="background-color: #4485AF !important;" class="btn btn-primary btn-block">View Details</button></a></td>
+												<td><a href="update-package.php?pid=<?php echo htmlentities($result->PackageId); ?>"><button type="button" style="background-color: #4485AF !important;" class="btn btn-primary btn-block">Update</button></a></td>
 											</tr>
 									<?php $cnt = $cnt + 1;
 										}

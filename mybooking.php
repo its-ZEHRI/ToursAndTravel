@@ -52,7 +52,7 @@
     <main class="pt-5 bg-light">
         <div class="container p-5">
             <div class="row w-75 mx-auto bg-light p-3" style="box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.3);">
-                
+                <a href="index.php" style="text-decoration: none;"><-Home</a>
                 <table class="table table-striped table-hover ">
                     <thead>
                         <tr>

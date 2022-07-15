@@ -186,6 +186,21 @@ class get_data
 		}
 	}
 
+	function updatePost(){
+		$user_id = $_SESSION['id'];
+		$post_id = $_POST['post_id'];
+		$description = $_POST['description'];
+		try {
+			$query = "UPDATE posts SET description = ? WHERE id=? and user_id=?";
+			$stmt = $this->db->prepare($query);
+			$stmt->execute(array($description,$post_id,$user_id));
+			return 'Post updated succsussfully.';
+		} catch (\Throwable $th) {
+			echo $th->getMessage();
+		}
+		
+	}
+
 	function getUser()
 	{
 		$id = $_SESSION['id'];
