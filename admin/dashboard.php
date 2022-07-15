@@ -86,7 +86,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 							</div>
 							<div class="four-text">
 								<h3>Bookings</h3>
-								<?php $sql1 = "SELECT BookingId from booking";
+								<?php $sql1 = "SELECT id from booking";
 								$query1 = $dbh->prepare($sql1);
 								$query1->execute();
 								$results1 = $query1->fetchAll(PDO::FETCH_OBJ);

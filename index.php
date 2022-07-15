@@ -1,15 +1,9 @@
 <?php
 session_name('travel');
 session_start();
-// session_destroy();
-// $_SESSION = array();
 include('processor/get_processor.php');
-// include('processor/ajax_processor.php');
 $posts = $obj->getPosts();
-
-include("processor/Package.php");
-$object = new Package();
-$packages  = $object->get_packages();
+$packages  = $package_obj->get_packages();
 
 ?>
 <!DOCTYPE HTML>
@@ -107,6 +101,7 @@ $packages  = $object->get_packages();
 						<hr>
 						<div class="p-2 sidebar-menu">
 							<a href="myprofile.php">Profile</a>
+							<a href="mybooking.php">Booking</a>
 							<a href="#">Post</a>
 							<a href="#">Gallery</a>
 						</div>
@@ -127,6 +122,7 @@ $packages  = $object->get_packages();
 				<!-- wrap in loop -->
 				<?php foreach ($posts as $key => $value) {  ?>
 					<div id='parent' class="p-3 mb-3 parent">
+						
 						<!-- user info -->
 						<div class="d-flex align-items-center position-relative">
 							<img src="images/<?php if ($value->image == null) echo "noimage.png";
@@ -295,7 +291,7 @@ $packages  = $object->get_packages();
 			});
 
 			$(this).on('click', '#report_icon', function() {
-				$('#report_form').toggleClass('d-none')
+				$('#report_form').toggleClass('d-none');
 			});
 
 			$(this).on('submit','#report_form',function(event){
@@ -313,7 +309,7 @@ $packages  = $object->get_packages();
 					success: function (response) {
 						if(response == 'ok')
 							// alert('done');
-							parent.find('#report_icon').addClass('d-none');
+							// parent.find('#report_icon').addClass('d-none');
 							parent.find('#report_form').addClass('d-none');
 					}
 				});

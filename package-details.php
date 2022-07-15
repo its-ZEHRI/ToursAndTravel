@@ -1,24 +1,18 @@
 <?php
-session_name('travel');
-session_start();
-error_reporting(0);
-if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
-} else
-    header("location:includes/signin.php");
-?>
-
-<?php
-session_name('travel');
-session_start();
-error_reporting(0);
-if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
-} else
-    header("location:includes/signin.php");
-
-$pid = intval($_GET['id']);
-include("processor/Package.php");
-$object = new Package();
-$package  = $object->get_package($pid);
+    session_name('travel');
+    session_start();
+    error_reporting(0);
+    if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
+    } else
+        header("location:includes/signin.php");
+        
+    $pid = intval($_GET['id']);
+    include("processor/get_processor.php");
+    $package  = $package_obj->get_package($pid);
+    $resp = "";
+    if(isset($_POST['submit'])){
+        $resp = $package_obj->booking_request();    
+    }    
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -66,19 +60,20 @@ $package  = $object->get_package($pid);
                     <h3>Package Type : <span><?php echo $package[0]->PackageType ?></span></h3>
                     <h3>Package Location : <span><?php echo $package[0]->PackageLocation ?></span></h3>
                     <h3>Features : <span><?php echo $package[0]->PackageFetures ?></span></h3>
-                    <h3>Total : <span>2500/-</span></h3>
-                    <form action="" method="POST" class="w-50 my-4">
-                        <div class="form-group">
-                            <label for="">From</label>
-                            <input type="date" name="from" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">To</label>
-                            <input type="date" name="to" class="form-control">
-                        </div>
-                    </form>
+                    <h3>Total : <span><?php echo $package[0]->PackagePrice ?></span></h3>
+                    
                     <h3>Package Details</h3>
                     <P style="opacity: 0.7;"><?php echo $package[0]->PackageDetails ?></P>
+                    <form action="package-details.php?id=<?php echo $pid?>" method="POST" class="w-50 my-4">
+                        <input type="hidden" name="package_id" value="<?php echo $package[0]->PackageId ?>">
+                        <input type="hidden" name="user_id" value="<?php echo $_SESSION['id'] ?>">
+                        <div class="form-group">
+                            <label for="">Comments</label>
+                            <textarea name="comment" id="" class="form-control" rows="3"></textarea>
+                        </div>
+                        <p style="color:red"><?php echo $resp ?></p>
+                        <input type="submit" name="submit" class="btn btn-primary" value="Book Now">
+                    </form>
                 </div>
                 <div class="col-md-5 text-end">
                     <img src="images/6.jpg" alt="" width="80%">

@@ -5,31 +5,29 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
 	header('location:index.php');
 } else {
-	// code for cancel
-	if (isset($_REQUEST['bkid'])) {
-		$bid = intval($_GET['bkid']);
-		$status = 2;
-		$cancelby = 'a';
-		$sql = "UPDATE booking SET status=:sstatus,CancelledBy=:cancelby WHERE  BookingId=:bid";
-		$query = $dbh->prepare($sql);
-		$query->bindParam(':sstatus', $status, PDO::PARAM_STR);
-		$query->bindParam(':cancelby', $cancelby, PDO::PARAM_STR);
-		$query->bindParam(':bid', $bid, PDO::PARAM_STR);
-		$query->execute();
+	//code for cancel
+	// if (isset($_REQUEST['bkid'])) {
+	// 	$bid = intval($_GET['bkid']);
+	// 	$status = 2;
+	// 	$cancelby = 'a';
+	// 	$sql = "UPDATE booking SET status=:sstatus,CancelledBy=:cancelby WHERE  BookingId=:bid";
+	// 	$query = $dbh->prepare($sql);
+	// 	$query->bindParam(':sstatus', $status, PDO::PARAM_STR);
+	// 	$query->bindParam(':cancelby', $cancelby, PDO::PARAM_STR);
+	// 	$query->bindParam(':bid', $bid, PDO::PARAM_STR);
+	// 	$query->execute();
 
-		$msg = "Booking Cancelled successfully";
-	}
+	// 	$msg = "Booking Cancelled successfully";
+	// }
 
 
-	if (isset($_REQUEST['bckid'])) {
-		$bcid = intval($_GET['bckid']);
+	if (isset($_REQUEST['booking_id'])) {
+		$id = intval($_GET['booking_id']);
 		$status = 1;
-		$cancelby = 'a';
-		$sql = "UPDATE booking SET status=:sstatus WHERE BookingId=:bcid";
-		$query = $dbh->prepare($sql);
-		$query->bindParam(':sstatus', $status, PDO::PARAM_STR);
-		$query->bindParam(':bcid', $bcid, PDO::PARAM_STR);
-		$query->execute();
+		// $cancelby = 'a';
+		$query = "UPDATE booking SET status=? WHERE id=?";
+		$stmt = $dbh->prepare($query);
+		$stmt->execute(array($status, $id));
 		$msg = "Booking Confirm successfully";
 	}
 
@@ -149,12 +147,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 							<table id="table">
 								<thead>
 									<tr>
-										<th>Booikn id</th>
+										<th>Booking id</th>
 										<th>Name</th>
 										<th>Mobile No.</th>
-										<th>Email Id</th>
-										<th>RegDate </th>
-										<th>From /To </th>
+										<th>Email</th>
 										<th>Comment </th>
 										<th>Status </th>
 										<th>Action </th>
@@ -162,64 +158,44 @@ if (strlen($_SESSION['alogin']) == 0) {
 								</thead>
 								<tbody>
 									<?php
+									try {
 
-									// $sql = "SELECT booking.BookingId as bookid,users.FullName 
-									// as fname,users.MobileNumber as mnumber,users.EmailId as 
-									// email,packages.PackageName as pckname,booking.PackageId 
-									// as pid,booking.FromDate as fdate,booking.ToDate as tdate,booking.Comment 
-									// as comment,booking.status as status,booking.CancelledBy 
-									// as cancelby,booking.UpdationDate as upddate from users 
-									// join  booking on  booking.UserEmail=users.EmailId join packages 
-									// on packages.PackageId=booking.PackageId";
+										$sql = "SELECT u.FullName, u.MobileNumber, u.EmailId, b.status, b.comment, b.id, p.PackageName
+											 from users u join booking b on b.user_id = u.id
+									  		join packages p on p.PackageId=b.package_id";
 
-									// $sql = "SELECT booking.BookingId as bookid,users.FullName 
-									// as fname,users.MobileNumber as mnumber,users.EmailId 
-									// as email,packages.PackageName as pckname,booking.PackageId 
-									// as pid,booking.FromDate as fdate,booking.ToDate 
-									// as tdate,booking.Comment as comment,booking.status 
-									// as status,booking.CancelledBy as cancelby,booking.UpdationDate 
-									// as upddate from users join  booking on 
-									//  booking.UserEmail=users.EmailId join packages 
-									//  on packages.PackageId=booking.PackageId";
+										$query = $dbh->prepare($sql);
+										$query->execute();
+										$results = $query->fetchAll(PDO::FETCH_OBJ);
+										//  echo '<pre>' . var_export($results, true) . '</pre>';
+									} catch (\Throwable $th) {
+										echo $th->getMessage();
+									}
 
-									 $sql = "SELECT u.* b.*, p.* from users u join booking b on b.UserEmail = u.EmailId
-									  		join packages p on p.PackageId=b.PackageId";
-									
-									$query = $dbh->prepare($sql);
-									$query->execute();
-									$results = $query->fetchAll(PDO::FETCH_OBJ);
-									//  echo '<pre>' . var_export($results, true) . '</pre>';
-										
+
 									$cnt = 1;
 									if ($query->rowCount() > 0) {
 
 										foreach ($results as $result) {				?>
 											<tr>
-												<td>#BK-<?php echo htmlentities($result->bookid); ?></td>
-												<td><?php echo htmlentities($result->fname); ?></td>
-												<td><?php echo htmlentities($result->mnumber); ?></td>
-												<td><?php echo htmlentities($result->email); ?></td>
-												<td><a href="update-package.php?pid=<?php echo htmlentities($result->pid); ?>"><?php echo htmlentities($result->pckname); ?></a></td>
-												<td><?php echo htmlentities($result->fdate); ?> To <?php echo htmlentities($result->tdate); ?></td>
+												<td>#BK-<?php echo htmlentities($result->id); ?></td>
+												<td><?php echo htmlentities($result->FullName); ?></td>
+												<td><?php echo htmlentities($result->MobileNumber); ?></td>
+												<td><?php echo htmlentities($result->EmailId); ?></td>
 												<td><?php echo htmlentities($result->comment); ?></td>
-												<td><?php if ($result->status == 0) {
+												<td><?php if ($result->status == null)
 														echo "Pending";
-													}
-													if ($result->status == 1) {
+													else
 														echo "Confirmed";
-													}
-													if ($result->status == 2 and  $result->cancelby == 'a') {
-														echo "Canceled by you at " . $result->upddate;
-													}
-													if ($result->status == 2 and $result->cancelby == 'u') {
-														echo "Canceled by User at " . $result->upddate;
-													}
 													?></td>
 
 												<?php if ($result->status == 2) {
 												?><td>Cancelled</td>
 												<?php } else { ?>
-													<td><a href="manage-bookings.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a> / <a href="manage-bookings.php?bckid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Confirm</a></td>
+													<td>
+														<a href="<?php if ($result->status != null) echo '#';
+															else echo 'manage-bookings.php?booking_id=' . $result->id  ?>">Confirm</a>
+													</td>
 												<?php } ?>
 
 											</tr>
