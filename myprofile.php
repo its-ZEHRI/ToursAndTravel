@@ -20,6 +20,9 @@
     if (isset($_POST['Update-profile-image'])) {
         $resp = $obj->updateProfileImage();
     }
+    if(isset($_POST['delete_profile_image'])){
+        $resp = $obj->deleteProfileImage();
+    }
     if (isset($_POST['change-profile-name'])) {
         $resp = $obj->updateProfileName();
     }
@@ -97,11 +100,16 @@
             <img id="profile_image" src="images/<?php if ($user[0]->image == null) echo "noimage.png";
                                                 else echo $user[0]->image ?>" width="210px" height="210px" alt="" class="rounded-circle" style="object-fit:cover; position:absolute; top:50%; left:5%;border:3px solid white">
             <div id="profile_image_icons" class="">
-                <i class="fa-solid fa-pen-to-square text-info p-2" style="font-size: 30px; cursor:pointer"></i>
-                <i class="fa-solid fa-circle-minus p-2 text-danger" style="font-size: 30px; cursor:pointer"></i>
+                <i class="fa-solid fa-pen-to-square text-info p-2" id="profile_image_icon" style="font-size: 30px; cursor:pointer"></i>
+                
+                <form action="myprofile.php" method="POST" class="d-inline">
+                    <button type="submit" name="delete_profile_image" class="" style="background-color: transparent; border:none">
+                        <i class="fa-solid fa-circle-minus p-2 text-danger" style="font-size: 30px; cursor:pointer"></i>
+                    </button>
+                    <!-- <input type="submit" id="delete_profile_image_form" class="btn btn-outline-primary" name="Update-profile-image"> -->
+                </form>
             </div>
             <h2 style="position:absolute; bottom: -30%; left:20%"><?php echo $user[0]->FullName; ?></h2>
-            <span id="profile_image_icon" class="edit-image-icon bg-info p-2">edit</span>
         </div>
         <!-- banner end -->
 
@@ -155,13 +163,8 @@
 
                             <!-- for user image -->
                             <form action="myprofile.php" method="POST" class="d-none" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Image</label>
-                                    <input type="file" name="image" class="form-control" id="change_profile_image">
-                                </div>
-                                <div class="text-end">
-                                    <input type="submit" id="change_profile_form" class="btn btn-outline-primary" name="Update-profile-image">
-                                </div>
+                                <input type="file" name="image" class="form-control" id="change_profile_image">
+                                <input type="submit" id="change_profile_form" class="btn btn-outline-primary" name="Update-profile-image">
                             </form>
                         </div>
                     </div>
@@ -172,7 +175,7 @@
 
         <!-- gallery -->
         <div class="container mt-5 py-5">
-            <h1>Gallery</h1>
+            <h1>Posts</h1>
             <hr class="m-0">
             <div class="container mt-5">
                 <div class="row">

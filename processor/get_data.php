@@ -255,6 +255,18 @@ class get_data
 		 $stmt->execute(array( $filename ,$id));
 		$_SESSION['image'] =  $filename;
 	}
+
+	function deleteProfileImage(){
+		$id = $_SESSION['id'];
+		try {
+			$query = "UPDATE users SET image=null WHERE id=?";
+			$stmt = $this->db->prepare($query);
+			$stmt->execute(array($id));
+			return 'ok';
+		} catch (\Throwable $th) {
+			echo $th->getMessage();
+		}
+	}
 	// update profile name
 	function updateProfileName()
 	{
@@ -285,24 +297,6 @@ class get_data
 			var_dump($th->getMessage());
 		}
 	}
-
-	// function getAuthUser($id){
-	// 	try {
-	// 		$query = "SELECT  FROM comments c JOIN users u WHERE c.post_id = $post_id and c.user_id = u.id ORDER BY created_at DESC";
-	// 		$stmt = $this->db->prepare($query);
-	// 		$stmt->execute();
-	// 		if ($stmt->rowCount() < 1) {
-	// 			return [];
-	// 		} else {
-	// 			return $stmt->fetchAll(PDO::FETCH_OBJ);
-
-	// 			// $data = $stmt->fetchAll(PDO::FETCH_OBJ);
-	// 			// echo '<pre>' . var_export($data, true) . '</pre>';
-	// 		}
-	// 	} catch (\Throwable $th) {
-	// 		var_dump($th->getMessage());
-	// 	}
-	// }
 
 	function addComment()
 	{
