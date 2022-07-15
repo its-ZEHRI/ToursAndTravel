@@ -217,15 +217,7 @@
 
     <script>
         $(document).ready(function() {
-            $(this).on('click','.edit',function(event){
-                var edit = $(this).parentsUntil('.parent');
-                $('#post-title').text('Update Post');
-                $('#post_id').val(edit.find('.post_id').val());
-                $('#description').val(edit.find('.description').text());
-                $('#image').addClass('d-none');
-                $('#submit_btn').val('Update')
-                $('#submit_btn').attr('name','update_post');
-            });
+            
             $(this).on('click', '#profile_image_icon', function() {
                 $('#change_profile_image').click()
             })
@@ -245,6 +237,15 @@
             $("#profile_image_icons").mouseleave(function(){
                 $('#profile_image').css('opacity','1')
             })
+            $(this).on('click','.edit',function(event){
+                var edit = $(this).parentsUntil('.parent');
+                $('#post-title').text('Update Post');
+                $('#post_id').val(edit.find('.post_id').val());
+                $('#description').val(edit.find('.description').text());
+                $('#image').addClass('d-none');
+                $('#submit_btn').val('Update')
+                $('#submit_btn').attr('name','update_post');
+            });
 
            
         })

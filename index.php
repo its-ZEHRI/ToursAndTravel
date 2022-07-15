@@ -104,8 +104,7 @@ $packages  = $package_obj->get_packages();
 						<div class="p-2 sidebar-menu">
 							<a href="myprofile.php">Profile</a>
 							<a href="mybooking.php">Booking</a>
-							<a href="#">Post</a>
-							<a href="#">Gallery</a>
+							<a href="gallery.php">Gallery</a>
 						</div>
 					<?php
 
