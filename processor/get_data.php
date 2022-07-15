@@ -254,6 +254,7 @@ class get_data
 		$stmt = $this->db->prepare($query);
 		 $stmt->execute(array( $filename ,$id));
 		$_SESSION['image'] =  $filename;
+		return 'ok';
 	}
 
 	function deleteProfileImage(){
@@ -262,6 +263,7 @@ class get_data
 			$query = "UPDATE users SET image=null WHERE id=?";
 			$stmt = $this->db->prepare($query);
 			$stmt->execute(array($id));
+			$_SESSION['image'] =  null;
 			return 'ok';
 		} catch (\Throwable $th) {
 			echo $th->getMessage();
@@ -275,6 +277,7 @@ class get_data
 		$query = "UPDATE users Set `FullName` = ? WHERE id = ?";
 		$stmt = $this->db->prepare($query);
 		$stmt->execute(array( $name,$id));
+		$_SESSION['user_name'] = $name;
 		// echo '<pre>' . var_export('FullName updated Successfully', true) . '</pre>';
 		return "Name updated Successfully";
 	}

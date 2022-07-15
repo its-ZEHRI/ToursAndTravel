@@ -183,7 +183,7 @@
                         <div class="col-md-4 parent">
                             <div class="card mb-3">
                                 <div class="ratio ratio-4x3">
-                                    <img class="card-img-top" src="images/<?php echo $value->p_image; ?>" alt="Card image cap" style="width:100%; background-size:contain; object-fit:cover; background-position:center">
+                                    <img class="card-img-top" src="images/<?php echo $value->p_image; ?>" style="width:100%; background-size:contain; object-fit:cover; background-position:center">
                                 </div>
                                 <div class="card-body">
                                     <!-- <h5 class="card-title">Title</h5> -->
