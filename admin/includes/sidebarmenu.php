@@ -13,7 +13,7 @@
 					<div class="clearfix"></div>
 				</a>
 			</li>
-			<li id="menu-academico"><a href="manage-packages.php"><i class="fa fa-list-ul" aria-hidden="true"></i></i><span>Active Package</span>
+			<li id="menu-academico"><a href="active-packages.php"><i class="fa fa-list-ul" aria-hidden="true"></i></i><span>Active Package</span>
 					<div class="clearfix"></div>
 				</a>
 			</li>

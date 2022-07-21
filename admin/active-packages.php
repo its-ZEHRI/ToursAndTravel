@@ -42,16 +42,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<!-- lined-icons -->
 		<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
 		<!-- //lined-icons -->
+		<link rel="stylesheet" href="css/custom.css" type='text/css' />
 		<style>
-		#menu li a {
-			background-color: rgba(255, 255, 255, 1) !important;
-			color: #000 !important;
-		}
-
-		#menu li a:hover {
-			background-color: #4485AF !important;
-			color: #fff !important;
-		}
 		#table thead tr th{
 			background-color: #4485AF !important;
 		}
@@ -69,7 +61,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 				</div>
 				<!--heder end here-->
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="dashboard.html">Home</a><i class="fa fa-angle-right"></i>Active Packages</li>
+					<li class="breadcrumb-item"><a href="dashboard.php">Home</a><i class="fa fa-angle-right"></i>Active Packages</li>
 				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
@@ -116,9 +108,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 								</tbody>
 							</table>
 						</div>
-						</table>
-
-
 					</div>
 					<!-- script-for sticky-nav -->
 					<script>
@@ -132,28 +121,15 @@ if (strlen($_SESSION['alogin']) == 0) {
 									$(".header-main").removeClass("fixed");
 								}
 							});
-
 						});
 					</script>
-					<!-- /script-for sticky-nav -->
-					<!--inner block start here-->
-					<div class="inner-block">
-
-					</div>
-					<!--inner block end here-->
-					<!--copy rights start here-->
-					<?php include('includes/footer.php'); ?>
-					<!--COPY rights end here-->
 				</div>
 			</div>
-			<!--//content-inner-->
-			<!--/sidebar-menu-->
 			<?php include('includes/sidebarmenu.php'); ?>
 			<div class="clearfix"></div>
 		</div>
 		<script>
 			var toggle = true;
-
 			$(".sidebar-icon").click(function() {
 				if (toggle) {
 					$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
@@ -168,7 +144,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 						});
 					}, 400);
 				}
-
 				toggle = !toggle;
 			});
 		</script>
@@ -205,7 +180,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 			});
 		</script>
 		<!-- /Bootstrap Core JavaScript -->
-
 	</body>
 
 	</html>
