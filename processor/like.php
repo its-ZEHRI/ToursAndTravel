@@ -8,12 +8,8 @@ class like
         $username = "asif";
         $password = "12345678";
         try {
-
             $this->db = new PDO("mysql:host=$servername;dbname=toursandtravels", $username, $password);
-            // set the PDO error mode to exception
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            // echo "Connection Successfull ";
-
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -75,16 +71,6 @@ class like
             $stmt->execute(array($post_id));
 
             return $stmt->rowCount();
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
-    }
-
-    function postUnlike()
-    {
-        try {
-            $post_id = $_POST['post_id'];
-            $user_id = $_POST['user_id'];
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

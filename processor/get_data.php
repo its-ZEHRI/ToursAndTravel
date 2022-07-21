@@ -30,8 +30,6 @@ class get_data
 			$password = $_POST['password'];
 			$c_password = $_POST['c_password'];
 
-			// $image = $_FILES["image"]["name"];
-
 			$filename = $_FILES["image"]["name"];
 			$tempname = $_FILES["image"]["tmp_name"];
 			$folder = "../images/" . $filename;
@@ -61,9 +59,7 @@ class get_data
 
 			if (move_uploaded_file($tempname, $folder)) {
 			}
-				// return " Failed to upload image..";
 
-			// move_uploaded_file($_FILES["image"]["tmp_name"], "../images/" . $_FILES["image"]["name"]);
 			$query = "INSERT INTO  users(FullName,MobileNumber,EmailId ,image,Password) VALUES(?,?,?,?,?)";
 			$stmt = $this->db->prepare($query);
 			$stmt->execute(array($name, $contact, $email, $filename, $password));
@@ -97,7 +93,6 @@ class get_data
 		try {
 			$email = $_POST['email'];
 			$password = md5($_POST['password']);
-			// $password = $_POST['password'];
 
 			if (empty($email) || empty($password)) {
 				return "Please, Enter email and password";
