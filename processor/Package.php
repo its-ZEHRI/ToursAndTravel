@@ -32,23 +32,6 @@ class Package
 		}
 	}
 
-	function package_experied()
-	{
-		try {
-			$text = 'active';
-			$query = "SELECT * FROM packages where status = ?";
-			$stmt = $this->db->prepare($query);
-			$stmt->execute(array($text));
-			if ($stmt->rowCount() < 1)
-				return [];
-			else {
-				$data = $stmt->fetchAll(PDO::FETCH_OBJ);
-			}
-		} catch (\Throwable $th) {
-			return $th->getMessage();
-		}
-	}
-
 	// Get single package
 	function get_package($id)
 	{
