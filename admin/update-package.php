@@ -14,8 +14,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 			$pprice = $_POST['packageprice'];
 			$pfeatures = $_POST['packagefeatures'];
 			$pdetails = $_POST['packagedetails'];
+			$pclosing_date = strtotime($_POST['closing_date']);
 			$pimage = $_FILES["packageimage"]["name"];
-			$sql = "update Packages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails where PackageId=:pid";
+
+			$sql = "update Packages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails,closing_date=:pclosing_date where PackageId=:pid";
 			$query = $dbh->prepare($sql);
 			$query->bindParam(':pname', $pname, PDO::PARAM_STR);
 			$query->bindParam(':ptype', $ptype, PDO::PARAM_STR);
@@ -23,6 +25,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 			$query->bindParam(':pprice', $pprice, PDO::PARAM_STR);
 			$query->bindParam(':pfeatures', $pfeatures, PDO::PARAM_STR);
 			$query->bindParam(':pdetails', $pdetails, PDO::PARAM_STR);
+			$query->bindParam(':pclosing_date', $pclosing_date, PDO::PARAM_STR);
 			$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 			$query->execute();
 			$msg = "Package Updated Successfully";
@@ -158,6 +161,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 											<label for="focusedinput" class="col-sm-2 control-label">Package Features</label>
 											<div class="col-sm-8">
 												<input type="text" class="form-control1" name="packagefeatures" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" value="<?php echo htmlentities($result->PackageFetures); ?>" required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="focusedinput" class="col-sm-2 control-label">Package Closing Date</label>
+											<div class="col-sm-8">
+												<input type="datetime-local" class="form-control1" name="closing_date" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" value="<?php echo htmlentities($result->closing_date); ?>" required>
 											</div>
 										</div>
 

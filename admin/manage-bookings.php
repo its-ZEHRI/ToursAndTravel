@@ -5,35 +5,14 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
 	header('location:index.php');
 } else {
-	//code for cancel
-	// if (isset($_REQUEST['bkid'])) {
-	// 	$bid = intval($_GET['bkid']);
-	// 	$status = 2;
-	// 	$cancelby = 'a';
-	// 	$sql = "UPDATE booking SET status=:sstatus,CancelledBy=:cancelby WHERE  BookingId=:bid";
-	// 	$query = $dbh->prepare($sql);
-	// 	$query->bindParam(':sstatus', $status, PDO::PARAM_STR);
-	// 	$query->bindParam(':cancelby', $cancelby, PDO::PARAM_STR);
-	// 	$query->bindParam(':bid', $bid, PDO::PARAM_STR);
-	// 	$query->execute();
-
-	// 	$msg = "Booking Cancelled successfully";
-	// }
-
-
 	if (isset($_REQUEST['booking_id'])) {
 		$id = intval($_GET['booking_id']);
 		$status = 1;
-		// $cancelby = 'a';
-		$query = "UPDATE booking SET status=? WHERE id=?";
+		$query = "UPDATE booking SET status=?  WHERE id=?";
 		$stmt = $dbh->prepare($query);
 		$stmt->execute(array($status, $id));
 		$msg = "Booking Confirm successfully";
 	}
-
-
-
-
 ?>
 	<!DOCTYPE HTML>
 	<html>
@@ -183,20 +162,33 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($result->MobileNumber); ?></td>
 												<td><?php echo htmlentities($result->EmailId); ?></td>
 												<td><?php echo htmlentities($result->comment); ?></td>
-												<td><?php if ($result->status == null)
-														echo "Pending";
-													else
+												<td><?php if ($result->status == 1)
 														echo "Confirmed";
-													?></td>
+													else if ($result->status == 2)
+														echo "Cancelled";
+													else
+														echo "pending";
+													?>
+												</td>
+												<td>
+													<?php if ($result->status == 1)
+														echo "Already Confirmed";
+													else if ($result->status == 2)
+														echo "Already Cancelled";
+													else { ?>
+														<a href="<?php if ($result->status != null) echo '#';
+																	else echo 'manage-bookings.php?booking_id=' . $result->id  ?>">Confirm</a>
+													<?php } ?>
+												</td>
 
-												<?php if ($result->status == 2) {
-												?><td>Cancelled</td>
+												<!-- <?php if ($result->status == 2) {
+														?><td>Cancelled</td>
 												<?php } else { ?>
 													<td>
 														<a href="<?php if ($result->status != null) echo '#';
-															else echo 'manage-bookings.php?booking_id=' . $result->id  ?>">Confirm</a>
+																	else echo 'manage-bookings.php?booking_id=' . $result->id  ?>">Confirm</a>
 													</td>
-												<?php } ?>
+												<?php } ?> -->
 
 											</tr>
 									<?php $cnt = $cnt + 1;

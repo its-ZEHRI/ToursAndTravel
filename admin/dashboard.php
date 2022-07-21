@@ -120,7 +120,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 				<div class="clearfix"></div>
 			</div>
 			<!--//four-grids here-->
-			<?php include('includes/footer.php'); ?>
 		</div>
 	</div>
 	<!--/sidebar-menu-->
@@ -130,7 +129,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 	<script>
 		var toggle = true;
-
 		$(".sidebar-icon").click(function() {
 			if (toggle) {
 				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
@@ -145,7 +143,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 					});
 				}, 400);
 			}
-
 			toggle = !toggle;
 		});
 	</script>

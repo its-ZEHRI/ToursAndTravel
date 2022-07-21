@@ -25,57 +25,8 @@ $packages  = $package_obj->get_packages();
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!--animate-->
 	<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
-
-	<style>
-		.news-fixed {
-			position: fixed;
-			right: 0;
-			top: 4.5rem
-		}
-
-		.prfile-fixed {
-			position: fixed;
-			left: 0;
-			top: 4.5rem
-		}
-
-		.sidebar-menu {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.parent {
-			box-shadow: inset 0px 0px 8px 1px rgba(67, 133, 175, 0.5);
-		}
-
-		.sidebar-menu a {
-			border-radius: 5px;
-			padding: 10px;
-			padding-left: 20px;
-			text-decoration: none;
-			margin-bottom: 10px;
-			color: #000;
-			background-color: rgba(255, 255, 255, 0.3);
-			transition: .3s !important;
-		}
-
-		.sidebar-menu a:hover {
-			color: #fff;
-			background-color: rgba(0, 0, 0, 0.2);
-			/* background: rgb(67, 133, 175); */
-			/* background: linear-gradient(150deg, rgba(67, 133, 175, 0.5) 21%, rgba(59, 172, 29, 0.1) 91%); */
-
-
-		}
-
-		.sidebar {
-			/* box-shadow:  0px 0px 3px 1px rgba(67, 133, 175, 0.5); */
-			/* box-shadow:  0px 0px 3px 1px rgba(0,0,0,0.3); */
-			height: 85vh;
-			background: rgb(67, 133, 175);
-			background: linear-gradient(150deg, rgba(67, 133, 175, 0.3) 21%, rgba(59, 172, 29, 0.1) 91%);
-		}
-	</style>
+	<!-- CUSTOM CSS -->
+	<link rel="stylesheet" href="css/custom.css">
 
 </head>
 
@@ -87,35 +38,9 @@ $packages  = $package_obj->get_packages();
 		<div id="posts" class="row" style="margin-top: 5rem;">
 			<div id="column" class="col-md-3 d-none"></div>
 
-			<!-- left side -->
+			<!-- side bar -->
 			<div id="profile_side" class="col-md-3">
-				<div class="border  sidebar">
-					<?php
-					if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) { ?>
-						<!-- user logged in sidebar -->
-						<a href="myprofile.php" style="text-decoration: none;">
-						<div class="d-flex align-items-center p-3">
-							<img src="images/<?php if ($_SESSION['image'] == null) echo "noimage.png";
-												else echo $_SESSION['image'] ?>" width="70px" height="70px" style="object-fit:cover;" class="rounded-circle align-self-" alt="">
-							<h3 class="ms-3 mt-2 "><?php echo $_SESSION['user_name']; ?></h3>
-						</div>
-						</a>
-						<hr>
-						<div class="p-2 sidebar-menu">
-							<a href="myprofile.php">Profile</a>
-							<a href="mybooking.php">Booking</a>
-							<a href="gallery.php">Gallery</a>
-						</div>
-					<?php
-
-					} else { ?>
-
-						<!-- Guest sidebar -->
-						<h1>guest</h1>
-
-
-					<?php } ?>
-				</div>
+			<?php include('sidebar.php'); ?>
 			</div>
 
 			<!-- post -->
@@ -132,13 +57,15 @@ $packages  = $package_obj->get_packages();
 								<h3 class="m-0"><?php echo $value->FullName ?></h3>
 							</div>
 							<?php if (isset($_SESSION['id']) && $_SESSION['id'] != $value->user_id) { ?>
-								<span id="report_icon" style="position:absolute; right:0; top:0; cursor:pointer" class="report_icon fa-solid fa-ellipsis-vertical"></span>
+								<div class="report">
+								<span id="report_ico" style="position:absolute; right:0; top:0; cursor:pointer" class="report_icon fa-solid fa-ellipsis-vertical"></span>
 								<div class="report_div">
-									<form id="report_form" class="border d-none" style="position:absolute; right:20px; top:-5px;">
+									<form id="report_form" class="border report_form d-none" style="position:absolute; right:20px; top:-5px;">
 										<input type="hidden" name="post_id" class="post_id" value="<?php echo $value->id ?>">
 										<input type="hidden" name="user_id" value="<?php echo $_SESSION['id']; ?>" class="user_id">
 										<input type="submit" class="" style="border: none; outline:none" value="Report">
 									</form>
+								</div>
 								</div>
 							<?php } ?>
 						</div>
@@ -160,8 +87,10 @@ $packages  = $package_obj->get_packages();
 									<div class="d-flex">
 										<input type="hidden" name="post_id" value="<?php echo $value->id; ?>" id="post_id">
 										<input type="hidden" name="user_id" value="<?php echo $_SESSION['id']; ?>" id="user_id">
-										<input type="text" id="comment_field" name="comment" value="" autocomplete="off" class="form-control comment-field" placeholder="something...!">
-										<input type="submit" class="btn btn-sm btn-primary" value="Comment">
+										<div class="w-100 position-relative">
+											<input type="text" id="comment_field" name="comment" value="" autocomplete="off" class="form-control comment-field" placeholder="something...!">
+											<input type="submit" class="position-absolute comment-btn" style="top:50% ; right: 2%; transform:translateY(-50%)" value="Enter">
+										</div>
 									</div>
 								</form>
 								<div class="likes_div">
@@ -198,7 +127,7 @@ $packages  = $package_obj->get_packages();
 						<hr>
 						<!-- post comments -->
 						<span class="text-muted mb-2 d-block">Comments</span>
-						<div class="borde" style="max-height: 10rem; overflow:auto">
+						<div class="" style="max-height: 10rem; overflow:auto">
 							<?php $comments = $obj->getComments($value->id) ?>
 							<div id="show_comments">
 								<?php foreach ($comments as $key => $value) { ?>
@@ -207,7 +136,6 @@ $packages  = $package_obj->get_packages();
 															else echo $value->image ?>" width="35px" height="35px" class="rounded-circle align-self-start" alt="">
 										<div class="ms-2">
 											<h6 class="m-0 mt-1"><?php echo $value->FullName ?></h6>
-											<!-- <span class="m-0 text-secondary" style="font-size: 13px;"> <?php echo $value->created_at; ?></span> -->
 											<p style="line-height: 18px;" class="text-secondary "><?php echo $value->comment ?></p>
 										</div>
 									</div>
@@ -229,26 +157,42 @@ $packages  = $package_obj->get_packages();
 					foreach ($packages as $key => $package) { ?>
 
 						<div class="mb-3">
-							<div class="card" style="width: 18rem;">
-								<img class="card-img-top" src="images/<?php echo $package->PackageImage ?>" alt="Card image cap">
+							<div class="card custom-card btn-wrapper" style="">
+								<img class="card-img-top" src="admin/pacakgeimages/<?php echo $package->PackageImage ?>" alt="Card image cap">
 								<div class="card-body pb-0 mb-0">
 									<h5 class="card-title"><?php echo $package->PackageName ?></h5>
 									<div class="mb-3">
-										<p class="m-0 text-muted">Package Type</p>
+										<p class="m-0 text-muted">Type</p>
 										<p class="m-0 card-text"><?php echo $package->PackageType ?></p>
 									</div>
 									<div class="mb-3">
-										<p class="m-0 text-muted">Package Location</p>
+										<?php 
+											$closingdate = $package->closing_date;
+											$closingdate -= (5*3600);
+											$time_left = $closingdate - time();
+											$days = floor($time_left/(60*60*24));
+											$time_left %= (60*60*24);
+											$hours = floor($time_left/(60*60));
+											$time_left %= (60*60);
+											$mintus = floor($time_left/60);
+						
+										?>
+										<p class="m-0 text-muted">Time left</p>
+										<p class="m-0 card-text" class=""><?Php echo $days . ' days and '. $hours .' hours '. $mintus.' mintus';?></p>
+									</div>
+									<div class="mb-3">
+										<p class="m-0 text-muted">Location</p>
 										<p class="m-0 card-text"><?php echo $package->PackageLocation ?></p>
 									</div>
 									<div>
-										<p class="m-0 text-muted">Package Features</p>
+										<p class="m-0 text-muted">Features</p>
 										<p class="m-0 card-text"><?php echo $package->PackageFetures ?></p>
 									</div>
+									
 								</div>
 
 								<div class="card-body text-end">
-									<a href="package-details.php?id=<?php echo $package->PackageId; ?>" class="btn btn-sm btn-info">Details</a>
+									<a href="package-details.php?id=<?php echo $package->PackageId; ?>" class="custom-btn">Details</a>
 								</div>
 							</div>
 						</div>
@@ -256,16 +200,7 @@ $packages  = $package_obj->get_packages();
 					<?php } ?>
 				</div>
 			</div>
-
-
-
-
-
 		</div>
-
-
-
-
 	</main>
 
 
@@ -273,6 +208,8 @@ $packages  = $package_obj->get_packages();
 	<script src="js/jquery-1.12.0.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/wow.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function() {
 
@@ -291,8 +228,9 @@ $packages  = $package_obj->get_packages();
 				}
 			});
 
-			$(this).on('click', '#report_icon', function() {
-				$('#report_form').toggleClass('d-none');
+			$(this).on('click', '.report_icon', function() {
+				var post =  $(this).parentsUntil('.parent');
+				post.find('.report_form').toggleClass('d-none');
 			});
 
 			$(this).on('submit','#report_form',function(event){

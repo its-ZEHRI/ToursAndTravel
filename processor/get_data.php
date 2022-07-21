@@ -228,14 +228,22 @@ class get_data
 		$user_id = $_POST['user_id'];
 
 		try {
-			$query = "INSERT INTO reports(post_id,user_id) VALUES(?,?)";
+
+			$query = "SELECT * From reports where post_id = ?";
 			$stmt = $this->db->prepare($query);
-			$stmt->execute(array($post_id,$user_id));
-			return 'ok';
+			$stmt->execute(array($post_id));
+
+			if($stmt->rowCount() < 1){
+				$query = "INSERT INTO reports(post_id) VALUES(?)";
+				$stmt = $this->db->prepare($query);
+				$stmt->execute(array($post_id));
+				return 'ok';
+			}
+			else
+				return 'ok';
 		} catch (\Throwable $th) {
 			return $th->getMessage();
 		}
-		
 	}
 
 	// update profile image
@@ -282,6 +290,32 @@ class get_data
 		return "Name updated Successfully";
 	}
 
+	function change_password(){
+		$id = $_SESSION['id'];
+		$password = $_POST['password'];
+		$new_password = $_POST['new-password'];
+		$confirm_password = $_POST['confirm-password'];
+
+		if ($new_password != $confirm_password)
+				return "password confirmation does not match.";
+		
+		$password = md5($password);
+
+
+		$query = "SELECT * FROM users Where id=? and password=?";
+		$stmt = $this->db->prepare($query);
+		$stmt->execute(array($id,$password));
+
+		if ($stmt->rowCount() != 1) {
+			return "Your Current Password Is Invalid";
+		}
+		$new_password = md5($new_password);
+		$query = "UPDATE users set password=? where id=?";
+		$stmt = $this->db->prepare($query);
+		$stmt->execute(array($new_password,$id));
+		return 'password changed succsussfully';
+
+	}
 	function getComments($post_id)
 	{
 		try {

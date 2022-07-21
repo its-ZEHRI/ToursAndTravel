@@ -6,25 +6,37 @@ if (strlen($_SESSION['alogin']) == 0)
 	header('location:index.php');
 else {
 	if (isset($_POST['submit'])) {
-
+		try {
+		// var_dump($_POST['closing_data']);
 		$pname = $_POST['packagename'];
 		$ptype = $_POST['packagetype'];
 		$plocation = $_POST['packagelocation'];
 		$pprice = $_POST['packageprice'];
 		$pfeatures = $_POST['packagefeatures'];
+		$pclosing_date = strtotime($_POST['closing_date']);
 		$pdetails = $_POST['packagedetails'];
 		$pimage = $_FILES["packageimage"]["name"];
 
+
 		move_uploaded_file($_FILES["packageimage"]["tmp_name"], "pacakgeimages/" . $_FILES["packageimage"]["name"]);
 
-		$query = "INSERT INTO Packages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage) VALUES(?,?,?,?,?,?,?)";
-		$stmt = $dbh->prepare($query);
-		$resp = $stmt->execute(array($pname, $ptype, $plocation, $pprice, $pfeatures, $pdetails, $pimage));
+		// $filename = $_FILES["packageimage"]["name"];
+		// $tempname = $_FILES["packageimage"]["tmp_name"];
+		// $folder = "packgeimages/" . $filename;
+		// move_uploaded_file($tempname, $folder);
 
+		$query = "INSERT INTO Packages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage,closing_date) VALUES(?,?,?,?,?,?,?,?)";
+		$stmt = $dbh->prepare($query);
+		$resp = $stmt->execute(array($pname, $ptype, $plocation, $pprice, $pfeatures, $pdetails, $pimage,$pclosing_date));
 		if ($resp)
 			$msg = "Package Created Successfully";
 		else
 			$error = "Some error occured, please try again.";
+	} catch (\Throwable $th) {
+		echo $th->getMessage();
+	}
+
+		
 	}
 }
 
@@ -144,7 +156,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<input type="text" class="form-control1" name="packagefeatures" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" required>
 									</div>
 								</div>
-
+								<div class="form-group">
+									<label for="focusedinput" class="col-sm-2 control-label">Package Closing date</label>
+									<div class="col-sm-8">
+										<input type="datetime-local" class="form-control1" name="closing_date" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" required>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label">Package Details</label>

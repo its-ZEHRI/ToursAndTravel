@@ -69,13 +69,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 				</div>
 				<!--heder end here-->
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="dashboard.html">Home</a><i class="fa fa-angle-right"></i>Active Packages</li>
+					<li class="breadcrumb-item"><a href="dashboard.html">Home</a><i class="fa fa-angle-right"></i>Expired Packages</li>
 				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
 					<div class="agile-tables">
 						<div class="w3l-table-info">
-							<h2 >Active Packages</h2>
+							<h2 >Expired Packages</h2>
 							<table id="table">
 								<thead style="background-color: #4485AF !important;">
 									<tr style="background-color: #4485AF !important;">
@@ -92,7 +92,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 								<tbody>
 									<?php
 									$time = time();
-									$sql = "SELECT * from Packages where closing_date > ? ORDER BY PackageId desc";
+									$sql = "SELECT * from Packages where closing_date < ? ORDER BY PackageId desc";
 									$query = $dbh->prepare($sql);
 									$query->execute(array($time));
 									$results = $query->fetchAll(PDO::FETCH_OBJ);
