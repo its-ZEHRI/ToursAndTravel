@@ -1,6 +1,6 @@
 <div class="header-main">
 	<div class="logo-w3-agile" style="background-color: #4485AF;">
-		<h1 ><a href="dashboard.php">Tours and Travels System</a></h1>
+		<h1 ><a href="dashboard.php">Local Toursim System</a></h1>
 	</div>
 	<div class="profile_details w3l">
 		<ul>

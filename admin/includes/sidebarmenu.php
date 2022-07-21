@@ -29,7 +29,7 @@
 					<div class="clearfix"></div>
 				</a>
 			</li>
-			<li id="menu-academico"><a href="manage-users.php"><i class="fa fa-users" aria-hidden="true"></i><span>Users</span>
+			<li id="menu-academico"><a href="users.php"><i class="fa fa-users" aria-hidden="true"></i><span>Users</span>
 					<div class="clearfix"></div>
 				</a>
 			</li>
