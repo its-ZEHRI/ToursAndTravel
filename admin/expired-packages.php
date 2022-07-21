@@ -42,19 +42,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<!-- lined-icons -->
 		<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
 		<!-- //lined-icons -->
-		<style>
-		#menu li a {
-			background-color: rgba(255, 255, 255, 1) !important;
-			color: #000 !important;
-		}
+		<!-- custom css -->
+		<link rel="stylesheet" href="css/custom.css" type='text/css' />
 
-		#menu li a:hover {
-			background-color: #4485AF !important;
-			color: #fff !important;
-		}
+		<style>
 		#table thead tr th{
 			background-color: #4485AF !important;
-		}
+		} 
 	</style>
 	</head>
 
@@ -69,7 +63,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 				</div>
 				<!--heder end here-->
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="dashboard.html">Home</a><i class="fa fa-angle-right"></i>Expired Packages</li>
+					<li class="breadcrumb-item"><a href="dashboard.php">Home</a><i class="fa fa-angle-right"></i>Expired Packages</li>
 				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
@@ -117,8 +111,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 							</table>
 						</div>
 						</table>
-
-
 					</div>
 					<!-- script-for sticky-nav -->
 					<script>
@@ -135,25 +127,14 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 						});
 					</script>
-					<!-- /script-for sticky-nav -->
-					<!--inner block start here-->
-					<div class="inner-block">
-
-					</div>
-					<!--inner block end here-->
-					<!--copy rights start here-->
-					<?php include('includes/footer.php'); ?>
-					<!--COPY rights end here-->
 				</div>
 			</div>
 			<!--//content-inner-->
-			<!--/sidebar-menu-->
 			<?php include('includes/sidebarmenu.php'); ?>
 			<div class="clearfix"></div>
 		</div>
 		<script>
 			var toggle = true;
-
 			$(".sidebar-icon").click(function() {
 				if (toggle) {
 					$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
@@ -168,7 +149,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 						});
 					}, 400);
 				}
-
 				toggle = !toggle;
 			});
 		</script>
@@ -180,32 +160,24 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('#table').basictable();
-
 				$('#table-breakpoint').basictable({
 					breakpoint: 768
 				});
-
 				$('#table-swap-axis').basictable({
 					swapAxis: true
 				});
-
 				$('#table-force-off').basictable({
 					forceResponsive: false
 				});
-
 				$('#table-no-resize').basictable({
 					noResize: true
 				});
-
 				$('#table-two-axis').basictable();
-
 				$('#table-max-height').basictable({
 					tableWrapper: true
 				});
 			});
 		</script>
-		<!-- /Bootstrap Core JavaScript -->
-
 	</body>
 
 	</html>
