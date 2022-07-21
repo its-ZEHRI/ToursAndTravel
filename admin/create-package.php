@@ -7,39 +7,29 @@ if (strlen($_SESSION['alogin']) == 0)
 else {
 	if (isset($_POST['submit'])) {
 		try {
-		// var_dump($_POST['closing_data']);
-		$pname = $_POST['packagename'];
-		$ptype = $_POST['packagetype'];
-		$plocation = $_POST['packagelocation'];
-		$pprice = $_POST['packageprice'];
-		$pfeatures = $_POST['packagefeatures'];
-		$pclosing_date = strtotime($_POST['closing_date']);
-		$pdetails = $_POST['packagedetails'];
-		$pimage = $_FILES["packageimage"]["name"];
+			$pname = $_POST['packagename'];
+			$ptype = $_POST['packagetype'];
+			$plocation = $_POST['packagelocation'];
+			$pprice = $_POST['packageprice'];
+			$pfeatures = $_POST['packagefeatures'];
+			$pclosing_date = strtotime($_POST['closing_date']);
+			$pdetails = $_POST['packagedetails'];
+			$pimage = $_FILES["packageimage"]["name"];
 
+			move_uploaded_file($_FILES["packageimage"]["tmp_name"], "pacakgeimages/" . $_FILES["packageimage"]["name"]);
 
-		move_uploaded_file($_FILES["packageimage"]["tmp_name"], "pacakgeimages/" . $_FILES["packageimage"]["name"]);
-
-		// $filename = $_FILES["packageimage"]["name"];
-		// $tempname = $_FILES["packageimage"]["tmp_name"];
-		// $folder = "packgeimages/" . $filename;
-		// move_uploaded_file($tempname, $folder);
-
-		$query = "INSERT INTO Packages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage,closing_date) VALUES(?,?,?,?,?,?,?,?)";
-		$stmt = $dbh->prepare($query);
-		$resp = $stmt->execute(array($pname, $ptype, $plocation, $pprice, $pfeatures, $pdetails, $pimage,$pclosing_date));
-		if ($resp)
-			$msg = "Package Created Successfully";
-		else
-			$error = "Some error occured, please try again.";
-	} catch (\Throwable $th) {
-		echo $th->getMessage();
-	}
-
-		
+			$query = "INSERT INTO Packages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage,closing_date) VALUES(?,?,?,?,?,?,?,?)";
+			$stmt = $dbh->prepare($query);
+			$resp = $stmt->execute(array($pname, $ptype, $plocation, $pprice, $pfeatures, $pdetails, $pimage, $pclosing_date));
+			if ($resp)
+				$msg = "Package Created Successfully";
+			else
+				$error = "Some error occured, please try again.";
+		} catch (\Throwable $th) {
+			echo $th->getMessage();
+		}
 	}
 }
-
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -49,7 +39,7 @@ else {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+				Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
@@ -66,37 +56,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
 	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-	<style>
-		.errorWrap {
-			padding: 10px;
-			margin: 0 0 20px 0;
-			background: #fff;
-			border-left: 4px solid #dd3d36;
-			-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-		}
-
-		.succWrap {
-			padding: 10px;
-			margin: 0 0 20px 0;
-			background: #fff;
-			border-left: 4px solid #5cb85c;
-			-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-		}
-	</style>
-	<style>
-		#menu li a {
-			background-color: rgba(255, 255, 255, 1) !important;
-			color: #000 !important;
-		}
-
-		#menu li a:hover {
-			background-color: #4485AF !important;
-			color: #fff !important;
-		}
-	</style>
+	<link rel="stylesheet" href="css/icon-font.min.css" type='text/css'>
+	<link rel="stylesheet" href="css/custom.css" type='text/css'>
 </head>
 
 <body>
@@ -104,19 +65,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--/content-inner-->
 		<div class="left-content">
 			<div class="mother-grid-inner">
-				<!--header start here-->
 				<?php include('includes/header.php'); ?>
-
 				<div class="clearfix"> </div>
 			</div>
-			<!--heder end here-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Create Package </li>
 			</ol>
 			<!--grid-->
 			<div class="grid-form">
-
-				<!---->
 				<div class="grid-form1">
 					<h3>Create Package</h3>
 					<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
@@ -135,21 +91,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<input type="text" class="form-control1" name="packagetype" id="packagetype" placeholder=" Package Type eg- Family Package / Couple Package" required>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label">Package Location</label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control1" name="packagelocation" id="packagelocation" placeholder=" Package Location" required>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label">Package Price </label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control1" name="packageprice" id="packageprice" placeholder=" Package Price" required>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label">Package Features</label>
 									<div class="col-sm-8">
@@ -162,7 +115,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<input type="datetime-local" class="form-control1" name="closing_date" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" required>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<label for="focusedinput" class="col-sm-2 control-label">Package Details</label>
 									<div class="col-sm-8">
@@ -175,35 +127,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<input type="file" name="packageimage" id="packageimage" required>
 									</div>
 								</div>
-
 								<div class="row">
 									<div class="col-sm-8 col-sm-offset-2">
 										<button style="background-color: #4485AF !important;" type="submit" name="submit" class="btn-primary btn">Create</button>
-
 										<button type="reset" class="btn-inverse btn">Reset</button>
 									</div>
 								</div>
-
-
-
-
-
+							</form>
 						</div>
-
-						</form>
-
-
-
-
-
-						<div class="panel-footer">
-
-						</div>
-						</form>
+						<div class="panel-footer"></div>
 					</div>
 				</div>
 				<!--//grid-->
-
 				<!-- script-for sticky-nav -->
 				<script>
 					$(document).ready(function() {
@@ -216,18 +151,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								$(".header-main").removeClass("fixed");
 							}
 						});
-
 					});
 				</script>
-				<!-- /script-for sticky-nav -->
-				<!--inner block start here-->
-				<div class="inner-block">
-
-				</div>
-				<!--inner block end here-->
-				<!--copy rights start here-->
-				<?php include('includes/footer.php'); ?>
-				<!--COPY rights end here-->
 			</div>
 		</div>
 		<!--//content-inner-->
@@ -237,7 +162,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<script>
 		var toggle = true;
-
 		$(".sidebar-icon").click(function() {
 			if (toggle) {
 				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
@@ -252,7 +176,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					});
 				}, 400);
 			}
-
 			toggle = !toggle;
 		});
 	</script>
@@ -262,7 +185,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
 	<!-- /Bootstrap Core JavaScript -->
-
 </body>
 
 </html>
