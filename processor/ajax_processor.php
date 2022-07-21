@@ -3,7 +3,6 @@
     include('like.php');
     $ajax_obj = new get_data(); 
     $likeobj = new like();
-    // $obj2 = new get_data();
 
     $op = $_POST['op'];
 
