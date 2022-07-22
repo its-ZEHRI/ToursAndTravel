@@ -148,8 +148,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 											</tr>
 									<?php
 										}
-									} else {
-										echo '<pre>' . var_export($result, true) . '</pre>';
 									} ?>
 								</tbody>
 							</table>

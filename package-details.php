@@ -71,7 +71,17 @@ if (isset($_POST['submit'])) {
                             <hr>
                             <h3>Package Type : <span><?php echo $package[0]->PackageType ?></span></h3>
                             <h3>Package Location : <span><?php echo $package[0]->PackageLocation ?></span></h3>
-                            <h3>Remaining Time : <span>4 days 4 hours and 4 minutes</span></h3>
+                            <?php
+                            $closingdate = $package[0]->closing_date;
+                            $closingdate -= (5 * 3600);
+                            $time_left = $closingdate - time();
+                            $days = floor($time_left / (60 * 60 * 24));
+                            $time_left %= (60 * 60 * 24);
+                            $hours = floor($time_left / (60 * 60));
+                            $time_left %= (60 * 60);
+                            $mintus = floor($time_left / 60);
+                            ?>
+                            <h3>Remaining Time : <span><?Php echo $days . ' days and '. $hours .' hours '. $mintus.' mintus';?></span></h3>
                             <h3>Features : <span><?php echo $package[0]->PackageFetures ?></span></h3>
                             <h3>Total : <span><?php echo $package[0]->PackagePrice ?></span></h3>
 
