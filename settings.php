@@ -100,7 +100,6 @@ $user = $obj->getUser();
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </main>
@@ -115,7 +114,6 @@ $user = $obj->getUser();
                 } else {
                     $('#profile_side').removeClass('prfile-fixed')
                     $('#column').addClass('d-none')
-
                 }
             });
         })

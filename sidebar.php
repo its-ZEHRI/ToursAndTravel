@@ -19,9 +19,7 @@
             <a href="settings.php">Settings</a>
         </div>
     <?php
-
     } else { ?>
-
         <!-- Guest sidebar -->
         <div class="p-2 pt-4">
             <h3>Local Tourism</h3>

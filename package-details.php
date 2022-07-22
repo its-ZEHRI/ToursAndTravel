@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
                             </form>
                         </div>
                         <div class="col-md-5 package-image mb-4  text-end">
-                            <img src="images/6.jpg" alt="" width="80%">
+                            <img src="admin/pacakgeimages/<?php echo $package[0]->PackageImage ?>" alt="" width="80%">
                         </div>
                     </div>
                 </div>

@@ -23,9 +23,6 @@ if (isset($_POST['Update-profile-image'])) {
 if (isset($_POST['delete_profile_image'])) {
     $resp = $obj->deleteProfileImage();
 }
-if (isset($_POST['change-profile-name'])) {
-    $resp = $obj->updateProfileName();
-}
 if (isset($_POST['update_post'])) {
     $resp = $obj->updatePost();
 }
@@ -139,21 +136,15 @@ $userPost = $obj->getUserPost();
                         <?php } ?>
                     </div>
                 </div>
-
     </main>
-
     <script>
         function validateSize(input) {
             const fileSize = input.files[0].size // in MiB
             if (fileSize > 7097152) {
                 alert('File size exceeds 7 MiB');
-                // $(file).val(''); //for clearing with Jquery
-            } else {
-                // Proceed further
-            }
+            } 
         }
     </script>
-
     <script>
         $(document).ready(function() {
             // for fixed column of row
@@ -165,10 +156,8 @@ $userPost = $obj->getUserPost();
                 } else {
                     $('#profile_side').removeClass('prfile-fixed')
                     $('#column').addClass('d-none')
-
                 }
             });
-
             $(this).on('click', '#profile_image_icon', function() {
                 $('#change_profile_image').click()
             })
@@ -197,16 +186,10 @@ $userPost = $obj->getUserPost();
                 $('#submit_btn').val('Update')
                 $('#submit_btn').attr('name', 'update_post');
             });
-
-
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-
 </body>
 
 </html>

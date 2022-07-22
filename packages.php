@@ -33,7 +33,6 @@ $packages  = $package_obj->get_packages();
 
 <body style="background-color:rgba(0, 0, 0, 0.05)">
     <?php include('includes/header.php'); ?>
-
     <main class="container-fluid">
         <div id="posts" class="row" style="margin-top: 5rem;">
             <div id="column" class="col-md-3 d-none"></div>
@@ -76,15 +75,10 @@ $packages  = $package_obj->get_packages();
             </div>
         </div>
     </main>
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-
             // for fixed column of row
             $(window).scroll(function() {
                 var height = $(window).scrollTop();
@@ -96,7 +90,6 @@ $packages  = $package_obj->get_packages();
                     $('#news_side').removeClass('news-fixed')
                     $('#profile_side').removeClass('prfile-fixed')
                     $('#column').addClass('d-none')
-
                 }
             });
         })

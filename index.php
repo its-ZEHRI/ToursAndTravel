@@ -37,18 +37,15 @@ $packages  = $package_obj->get_packages();
 
 		<div id="posts" class="row" style="margin-top: 5rem;">
 			<div id="column" class="col-md-3 d-none"></div>
-
 			<!-- side bar -->
 			<div id="profile_side" class="col-md-3">
 			<?php include('sidebar.php'); ?>
 			</div>
-
 			<!-- post -->
 			<div class="col-md-6">
 				<!-- wrap in loop -->
 				<?php foreach ($posts as $key => $value) {  ?>
 					<div id='parent' class="p-3 mb-3 parent">
-						
 						<!-- user info -->
 						<div class="d-flex align-items-center position-relative">
 							<img src="images/<?php if ($value->image == null) echo "noimage.png";
@@ -121,7 +118,6 @@ $packages  = $package_obj->get_packages();
 									<span class="ms-2 me-1"><?php echo $postlikes; ?></span>
 									<span><?php echo ($postlikes == 1) ? "like" :  "likes"; ?></span>
 								</span>
-
 							<?php } ?>
 						</div>
 						<hr>
@@ -144,18 +140,13 @@ $packages  = $package_obj->get_packages();
 						</div>
 					</div>
 				<?php } ?>
-
 				<!-- wrap in loop end -->
-
 			</div>
-
 			<!-- right side -->
-
 			<div id="news_side" class="col-md-3">
 				<div class="" style="height:90vh; overflow: auto;">
 					<?php
 					foreach ($packages as $key => $package) { ?>
-
 						<div class="mb-3">
 							<div class="card custom-card btn-wrapper" style="">
 								<img class="card-img-top" src="admin/pacakgeimages/<?php echo $package->PackageImage ?>" alt="Card image cap">
@@ -175,7 +166,6 @@ $packages  = $package_obj->get_packages();
 											$hours = floor($time_left/(60*60));
 											$time_left %= (60*60);
 											$mintus = floor($time_left/60);
-						
 										?>
 										<p class="m-0 text-muted">Time left</p>
 										<p class="m-0 card-text" class=""><?Php echo $days . ' days and '. $hours .' hours '. $mintus.' mintus';?></p>
@@ -188,22 +178,17 @@ $packages  = $package_obj->get_packages();
 										<p class="m-0 text-muted">Features</p>
 										<p class="m-0 card-text"><?php echo $package->PackageFetures ?></p>
 									</div>
-									
 								</div>
-
 								<div class="card-body text-end">
 									<a href="package-details.php?id=<?php echo $package->PackageId; ?>" class="custom-btn">Details</a>
 								</div>
 							</div>
 						</div>
-
 					<?php } ?>
 				</div>
 			</div>
 		</div>
 	</main>
-
-
 	<!-- Custom Theme files -->
 	<script src="js/jquery-1.12.0.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
@@ -212,7 +197,6 @@ $packages  = $package_obj->get_packages();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function() {
-
 			// for fixed column of row
 			$(window).scroll(function() {
 				var height = $(window).scrollTop();
@@ -224,7 +208,6 @@ $packages  = $package_obj->get_packages();
 					$('#news_side').removeClass('news-fixed')
 					$('#profile_side').removeClass('prfile-fixed')
 					$('#column').addClass('d-none')
-
 				}
 			});
 
@@ -247,14 +230,10 @@ $packages  = $package_obj->get_packages();
 					processData: false,
 					success: function (response) {
 						if(response == 'ok')
-							// alert('done');
-							// parent.find('#report_icon').addClass('d-none');
 							parent.find('#report_form').addClass('d-none');
 					}
 				});
 			});
-
-			// ----
 			// SUBMIT COMMENTS FORM
 			$(this).on('submit', '#comments_form', function(event) {
 				event.preventDefault();
@@ -270,7 +249,6 @@ $packages  = $package_obj->get_packages();
 					cache: false,
 					contentType: false,
 					processData: false,
-
 					success: function(response) {
 						if (response == 'ok') {
 							$(".comment-field").val('');
@@ -283,7 +261,6 @@ $packages  = $package_obj->get_packages();
 					}
 				});
 			});
-
 			// SUBMIT LIKE FORM 
 			$(this).on('submit', '.like-form', function(event) {
 				event.preventDefault();
@@ -293,9 +270,6 @@ $packages  = $package_obj->get_packages();
 				formdata.append('op', 'likePost');
 				var post_id = $(this).find(".post_id").val();
 				var user_id = $(this).find(".user_id").val();
-				// var post_id = $('#like_form .post_id').val();
-				// var user_id = $("#like_form .user_id").val();
-
 				$.ajax({
 					type: "POST",
 					url: "processor/ajax_processor.php",
@@ -329,7 +303,6 @@ $packages  = $package_obj->get_packages();
 				formdata.append('op', 'unlikePost');
 				var post_id = $(this).find(".post_id").val();
 				var user_id = $(this).find(".user_id").val();
-
 				$.ajax({
 					type: "POST",
 					url: "processor/ajax_processor.php",
@@ -354,7 +327,6 @@ $packages  = $package_obj->get_packages();
 
 		//GET SINGLE POST LIKES WHEN THE POST IS LIKED
 		function getPostLikes(post_id, user_id) {
-
 			$.ajax({
 				type: "POST",
 				url: "processor/ajax_processor.php",
@@ -363,7 +335,6 @@ $packages  = $package_obj->get_packages();
 					post_id: post_id
 				},
 				success: function(response) {
-
 					$('.check').html('');
 					$('.check').append('<span class="ms-2 me-1">' + response + '</span>\
                             <span>' + (response == 1 ? "like" : 'likes') + '</span>');
@@ -382,10 +353,8 @@ $packages  = $package_obj->get_packages();
 			});
 			setTimeout(function() {
 				$(".check").removeClass('check');
-
 			}, 2000);
 		}
-
 		// GET SINGLE POST LIKE WHEN THE POST IS UNLICKED
 		function getPostUnLikes(post_id, user_id) {
 			$.ajax({
@@ -417,8 +386,6 @@ $packages  = $package_obj->get_packages();
 
 			}, 500);
 		}
-
-
 		// GET SINGLE POST COMMENTS WHEN THE POST IS COMMENTED
 		function getComments(post_id) {
 			var daat = "";
@@ -450,17 +417,12 @@ $packages  = $package_obj->get_packages();
 				error: function(error) {
 					alert(error);
 				}
-
 			}) //end of ajax
 		}
-
-		// ----
 	</script>
 	<script>
 		new WOW().init();
 	</script>
-
-
 </body>
 
 </html>
