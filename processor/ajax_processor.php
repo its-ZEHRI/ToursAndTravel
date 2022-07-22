@@ -3,7 +3,6 @@
     include('like.php');
     $ajax_obj = new get_data(); 
     $likeobj = new like();
-    // $obj2 = new get_data();
 
     $op = $_POST['op'];
 
@@ -22,5 +21,8 @@
         echo $resp;
     }else if($op == 'getSinglePostLikes'){
         $resp = $likeobj->getSinglePostLikes($_POST['post_id']);
+        echo $resp;
+    }else if($op == 'reportPost'){
+        $resp = $ajax_obj->reportPost();
         echo $resp;
     }

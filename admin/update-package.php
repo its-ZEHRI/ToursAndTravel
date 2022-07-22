@@ -14,8 +14,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 			$pprice = $_POST['packageprice'];
 			$pfeatures = $_POST['packagefeatures'];
 			$pdetails = $_POST['packagedetails'];
+			$pclosing_date = strtotime($_POST['closing_date']);
 			$pimage = $_FILES["packageimage"]["name"];
-			$sql = "update Packages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails where PackageId=:pid";
+
+			$sql = "update Packages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails,closing_date=:pclosing_date where PackageId=:pid";
 			$query = $dbh->prepare($sql);
 			$query->bindParam(':pname', $pname, PDO::PARAM_STR);
 			$query->bindParam(':ptype', $ptype, PDO::PARAM_STR);
@@ -23,11 +25,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 			$query->bindParam(':pprice', $pprice, PDO::PARAM_STR);
 			$query->bindParam(':pfeatures', $pfeatures, PDO::PARAM_STR);
 			$query->bindParam(':pdetails', $pdetails, PDO::PARAM_STR);
+			$query->bindParam(':pclosing_date', $pclosing_date, PDO::PARAM_STR);
 			$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 			$query->execute();
 			$msg = "Package Updated Successfully";
 		}
-		//code...
 	} catch (\Throwable $th) {
 		echo '<pre>' . var_export($th->getMessage(), true) . '</pre>';
 	}
@@ -47,7 +49,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
 		}, false);
-
 		function hideURLbar() {
 			window.scrollTo(0, 1);
 		}
@@ -60,37 +61,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
 	<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-	<style>
-		.errorWrap {
-			padding: 10px;
-			margin: 0 0 20px 0;
-			background: #fff;
-			border-left: 4px solid #dd3d36;
-			-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-		}
-
-		.succWrap {
-			padding: 10px;
-			margin: 0 0 20px 0;
-			background: #fff;
-			border-left: 4px solid #5cb85c;
-			-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-			box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-		}
-	</style>
-	<style>
-		#menu li a {
-			background-color: rgba(255, 255, 255, 1) !important;
-			color: #000 !important;
-		}
-
-		#menu li a:hover {
-			background-color: #4485AF !important;
-			color: #fff !important;
-		}
-	</style>
-
+	<link rel="stylesheet" href="css/custom.css" type='text/css' />
 </head>
 
 <body>
@@ -105,7 +76,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 			</div>
 			<!--heder end here-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Update Tour Package </li>
+				<li class="breadcrumb-item"><a href="dashboard.php">Home</a><i class="fa fa-angle-right"></i>Update Tour Package </li>
 			</ol>
 			<!--grid-->
 			<div class="grid-form">
@@ -115,10 +86,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 					<div class="tab-content">
 						<div class="tab-pane active" id="horizontal-form">
-
 							<?php
 							$pid = intval($_GET['pid']);
-							$sql = "SELECT * from Packages where PackageId=:pid";
+							$sql = "SELECT * from Packages where PackageId=:pid limit 1";
 							$query = $dbh->prepare($sql);
 							$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 							$query->execute();
@@ -160,8 +130,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<input type="text" class="form-control1" name="packagefeatures" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" value="<?php echo htmlentities($result->PackageFetures); ?>" required>
 											</div>
 										</div>
-
-
+										<div class="form-group">
+											<label for="focusedinput" class="col-sm-2 control-label">Package Closing Date</label>
+											<div class="col-sm-8">
+												<input type="datetime" class="form-control1" name="closing_date" id="packagefeatures" placeholder="Package Features Eg-free Pickup-drop facility" value="<?php echo date("d/m/Y H:i:s", $result->closing_date); ?>" required>
+											</div>
+										</div>
 										<div class="form-group">
 											<label for="focusedinput" class="col-sm-2 control-label">Package Details</label>
 											<div class="col-sm-8">
@@ -174,7 +148,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<img src="pacakgeimages/<?php echo htmlentities($result->PackageImage); ?>" width="200">&nbsp;&nbsp;&nbsp;<a href="change-image.php?imgid=<?php echo htmlentities($result->PackageId); ?>">Change Image</a>
 											</div>
 										</div>
-
 										<div class="form-group">
 											<label for="focusedinput" class="col-sm-2 control-label">Last Updation Date</label>
 											<div class="col-sm-8">
@@ -183,22 +156,16 @@ if (strlen($_SESSION['alogin']) == 0) {
 										</div>
 								<?php }
 							} ?>
-
 								<div class="row">
 									<div class="col-sm-8 col-sm-offset-2">
 										<button type="submit" name="submit" style="background-color: #4485AF !important;" class="btn-primary btn">Update</button>
 									</div>
 								</div>
-						</div>
+							</div>
 						</form>
-						<div class="panel-footer">
-
-						</div>
-						</form>
+						<div class="panel-footer"></div>
 					</div>
 				</div>
-				<!--//grid-->
-
 				<!-- script-for sticky-nav -->
 				<script>
 					$(document).ready(function() {
@@ -211,28 +178,15 @@ if (strlen($_SESSION['alogin']) == 0) {
 								$(".header-main").removeClass("fixed");
 							}
 						});
-
 					});
 				</script>
-				<!-- /script-for sticky-nav -->
-				<!--inner block start here-->
-				<div class="inner-block">
-
-				</div>
-				<!--inner block end here-->
-				<!--copy rights start here-->
-				<?php include('includes/footer.php'); ?>
-				<!--COPY rights end here-->
 			</div>
 		</div>
-		<!--//content-inner-->
-		<!--/sidebar-menu-->
 		<?php include('includes/sidebarmenu.php'); ?>
 		<div class="clearfix"></div>
 	</div>
 	<script>
 		var toggle = true;
-
 		$(".sidebar-icon").click(function() {
 			if (toggle) {
 				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
@@ -247,7 +201,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 					});
 				}, 400);
 			}
-
 			toggle = !toggle;
 		});
 	</script>
@@ -257,7 +210,6 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
 	<!-- /Bootstrap Core JavaScript -->
-
 </body>
 
 </html>
