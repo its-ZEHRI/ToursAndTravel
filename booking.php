@@ -5,14 +5,12 @@ error_reporting(0);
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] == true) {
 } else
     header("location:includes/signin.php");
-
 include("processor/get_processor.php");
 if (isset($_REQUEST['booking_id'])) {
     $id = intval($_GET['booking_id']);
     $package_obj->cancel_booking($id);
 }
 $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
-
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -34,10 +32,8 @@ $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
     <script src="js/bootstrap.min.js"></script>
    
 </head>
-
 <body style="background-color:rgba(0, 0, 0, 0.05)">
     <?php include('includes/header.php'); ?>
-
     <main class="container-fluid">
         <div id="posts" class="row" style="margin-top: 5rem;">
             <div id="column" class="col-md-3 d-none"></div>
@@ -85,7 +81,6 @@ $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
                                                    <a href="booking.php?booking_id=<?php echo $booking->id?>" style="text-decoration:none">Cancel Booking</a>
                                                 <?php } ?>
                                         </td>
-                                        <!-- <td><a href="booking.php?booking_id=<?php echo $booking->id?>" style="text-decoration:none">Cancel Booking</a></td> -->
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -94,12 +89,9 @@ $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
                 </div>
             </div>
         </div>
-
     </main>
-
     <script>
         $(document).ready(function() {
-
             // for fixed column of row
             $(window).scroll(function() {
                 var height = $(window).scrollTop();
@@ -109,7 +101,6 @@ $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
                 } else {
                     $('#profile_side').removeClass('prfile-fixed')
                     $('#column').addClass('d-none')
-
                 }
             });
         });
@@ -117,7 +108,6 @@ $mybooking  = $package_obj->get_single_user_booking($_SESSION['id']);
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-
 </body>
 
 </html>
